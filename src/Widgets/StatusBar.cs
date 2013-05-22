@@ -12,7 +12,7 @@ namespace DotNetGUI.Widgets
         /// StatusBar
         /// </summary>
         /// <param name="parent"></param>
-        public StatusBar(Window parent)
+        public StatusBar(Widget parent)
             : base("", 0, parent.Height, parent.Width, 1)
         {
             //Widgets.Add(new Label(parent, "testing 1234"));

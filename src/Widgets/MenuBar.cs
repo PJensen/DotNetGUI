@@ -1,11 +1,4 @@
-﻿using DotNetGUI.Widgets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotNetGUI
+﻿namespace DotNetGUI.Widgets
 {
     /// <summary>
     /// MenuBar
@@ -27,10 +20,9 @@ namespace DotNetGUI
                     Visible = true,
                 };
 
-                tmpMenuButton.OkayEvent += (object sender, Events.GUIEventArgs e) => 
-                {
-                    m.MAction();
-                };
+                Menu.MenuItem m1 = m;
+
+                tmpMenuButton.OkayEvent += (sender, e) => m1.MAction();
 
                 Widgets.Add(tmpMenuButton);
 

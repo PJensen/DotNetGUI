@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,8 +64,6 @@ namespace DotNetGUI
         /// <returns></returns>
         public bool Equals(Glyph other)
         {
-            if (other == null)
-                return false;
             return this == other;
         }
 
@@ -76,7 +75,6 @@ namespace DotNetGUI
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-
             return obj is Glyph && Equals((Glyph)obj);
         }
 
@@ -88,7 +86,7 @@ namespace DotNetGUI
         {
             unchecked
             {
-                int retVal = G.GetHashCode();
+                var retVal = G.GetHashCode();
                 retVal = (retVal ^ 397) + FG.GetHashCode();
                 retVal = (retVal ^ 397) + BG.GetHashCode();
                 return retVal;
@@ -123,7 +121,7 @@ namespace DotNetGUI
         /// <returns></returns>
         public override string ToString()
         {
-            return G.ToString();
+            return G.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

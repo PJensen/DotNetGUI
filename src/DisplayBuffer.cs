@@ -85,9 +85,9 @@ namespace DotNetGUI
         /// <returns></returns>
         public void IterateOver(Action<Glyph[,], int, int> action)
         {
-            for (int y = 0; y < Height; ++y)
+            for (var y = 0; y < Height; ++y)
             {
-                for (int x = 0; x < Width; ++x)
+                for (var x = 0; x < Width; ++x)
                 {
                     action(Buffer, x, y);
                 }
@@ -129,9 +129,7 @@ namespace DotNetGUI
         /// <param name="s"></param>
         public void Write(string s)
         {
-            s.ToList().ForEach(ch => {
-                Write(ch);
-            });
+            s.ToList().ForEach(Write);
         }
 
         /// <summary>
@@ -183,15 +181,15 @@ namespace DotNetGUI
         /// <summary>
         /// Clear
         /// </summary>
-        /// <param name="dr"></param>
+        /// <param name="clearColor"> </param>
         public void Clear(IColorScheme clearColor)
         {
             Console.ForegroundColor = clearColor.ForegroundColor;
             Console.BackgroundColor = clearColor.BackgroundColor;
 
-            for (int y = 0; y < Height; ++y)
+            for (var y = 0; y < Height; ++y)
             {
-                for (int x = 0; x < Width; ++x)
+                for (var x = 0; x < Width; ++x)
                 {
                     Console.SetCursorPosition(x, y);
                     Console.Write(' ');
@@ -205,7 +203,7 @@ namespace DotNetGUI
         /// <summary>
         /// Buffer
         /// </summary>
-        Glyph[,] Buffer;
+        readonly Glyph[,] Buffer;
 
         /// <summary>
         /// Size

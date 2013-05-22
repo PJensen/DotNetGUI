@@ -18,10 +18,20 @@ namespace DotNetGUI.Widgets
         /// </summary>
         /// <param name="text">the text</param>
         /// <param name="size">the size</param>
+        /// <param name="parent"> </param>
         public Window(string text, Size size, Widget parent = null)
             : base(text, GUI.SizeToScreenCenter(size), size, parent)
         {
             KeyboardEvent += Window_KeyboardEvent;
+        }
+
+        /// <summary>
+        /// Window
+        /// </summary>
+        /// <param name="parent"></param>
+        public Window(Widget parent = null)
+            : base(parent)
+        {
         }
 
         /// <summary>

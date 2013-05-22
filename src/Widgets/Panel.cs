@@ -15,6 +15,7 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// Creates a new panel
         /// </summary>
+        /// <param name="parent"> </param>
         /// <param name="x">x-coordinate</param>
         /// <param name="y">y-coordinate</param>
         /// <param name="width">the width of this panel</param>

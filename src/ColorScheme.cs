@@ -52,7 +52,7 @@ namespace DotNetGUI
         {
             unchecked
             {
-                int result = BackgroundColor.GetHashCode();
+                var result = BackgroundColor.GetHashCode();
                 result = (result ^ 397) + ForegroundColor.GetHashCode();
                 return result;
             }

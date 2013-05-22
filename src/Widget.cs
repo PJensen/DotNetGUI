@@ -1,4 +1,6 @@
-﻿using DotNetGUI.Events;
+﻿using System.Diagnostics;
+using DotNetGUI.Attributes;
+using DotNetGUI.Events;
 using DotNetGUI.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,17 +18,17 @@ namespace DotNetGUI
         /// <summary>
         /// Retains the creation order of all widgets. If this gets cumbersome there should be a factory.
         /// </summary>
-        internal static int creationOrder = 0;
+        internal static int CreationOrder = 0;
 
         /// <summary>
         /// selector
         /// </summary>
-        int selector = 0;
+        int _selector = 0;
 
         /// <summary>
         /// Focused
         /// </summary>
-        static Widget Focus;
+        static Widget _focus;
 
         /// <summary>
         /// Create a new Widget
@@ -34,7 +36,8 @@ namespace DotNetGUI
         /// <param name="text">the text</param>
         /// <param name="location">the location</param>
         /// <param name="size">the size</param>
-        public Widget(string text, Point location, Size size, Widget parent = null)
+        /// <param name="parent"> </param>
+        protected Widget(string text, IPoint location, IDimensional size, Widget parent = null)
             : this(text, location.X, location.Y, size.Width, size.Height, parent)
         {
 
@@ -48,20 +51,20 @@ namespace DotNetGUI
         /// <param name="y">y-coordinate</param>
         /// <param name="width">the widget of the widget</param>
         /// <param name="height">the height of the widget</param>
-        public Widget(string text, int x, int y, int width, int height, Widget parent = null)
+        /// <param name="parent"> </param>
+        protected Widget(string text, int x, int y, int width, int height, Widget parent = null)
         {
-            WidgetID = creationOrder++;
+            WidgetID = CreationOrder++;
 
             Size = new Size(width, height);
             Location = new Point(x, y);
-            Location.X = x;
-            Location.Y = y;
             Text = text;
             Widgets = new List<Widget>();
             Console = new DisplayBuffer(width, height);
 
             // Most widgets are not selectable by default
             IsSelectable = false;
+            Visible = true;
 
             // The parent widget
             Parent = parent;
@@ -80,7 +83,8 @@ namespace DotNetGUI
         /// </summary>
         /// <param name="text">the text to initialize the widget with</param>
         /// <param name="region">the screen region for the widget</param>
-        public Widget(string text, IScreenRegion region, Widget parent = null)
+        /// <param name="parent"> </param>
+        protected Widget(string text, IScreenRegion region, Widget parent = null)
             : this(text, region.Location.X, region.Location.Y, region.Width, region.Height, parent)
         { }
 
@@ -88,8 +92,20 @@ namespace DotNetGUI
         /// Create a new Widget
         /// </summary>
         /// <param name="text">the text to initialize the widget with</param>
-        public Widget(string text, Widget parent = null)
-            : this(text, 0, 0, 0, 0, parent) { }
+        /// <param name="parent"> </param>
+        protected Widget(string text, Widget parent = null)
+            : this(text, 0, 0, 0, 0, parent)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parent"></param>
+        protected Widget(Widget parent = null)
+            : this(string.Empty, 0, 0, 0, 0, parent)
+        {
+        }
 
         /// <summary>
         /// Create a new widget without text
@@ -98,7 +114,7 @@ namespace DotNetGUI
         /// <param name="y">y-coordinate</param>
         /// <param name="width">the widget of the widget</param>
         /// <param name="height">the height of the widget</param>
-        public Widget(int x, int y, int width, int height, Widget parent = null)
+        protected Widget(int x, int y, int width, int height, Widget parent = null)
             : this("", x, y, width, height, parent) { }
 
         /// <summary>
@@ -158,9 +174,9 @@ namespace DotNetGUI
             switch (obj.Key)
             {
                 default:
-                    if (Focus != null && Focus.KeyboardEvent != null)
+                    if (_focus != null && _focus.KeyboardEvent != null)
                     {
-                        Focus.KeyboardEvent(this, new GUIKeyboardEventArgs(obj));
+                        _focus.KeyboardEvent(this, new GUIKeyboardEventArgs(obj));
                     }
                     break;
                 case ConsoleKey.Tab:
@@ -169,20 +185,20 @@ namespace DotNetGUI
                     {
                         var tmpWidgets = Widgets.Where(w => w.Visible && w.IsSelectable)
                             .OrderByDescending(w => w.Height)
-                            .ToArray<Widget>();
+                            .ToArray();
 
-                        if (tmpWidgets.Count() > 0)
+                        if (tmpWidgets.Any())
                         {
-                            if (Focus != null)
+                            if (_focus != null)
                             {
-                                Focus.Selected = false;
-                                Focus.Console.Invalidate();
+                                _focus.Selected = false;
+                                _focus.Console.Invalidate();
                             }
 
-                            Focus = tmpWidgets[Math.Abs(selector) % tmpWidgets.Count()];
-                            Focus.Selected = true;
-                            Focus.Console.Invalidate();
-                            Focus.OnWidgetSelectedEvent();
+                            _focus = tmpWidgets[Math.Abs(_selector) % tmpWidgets.Count()];
+                            _focus.Selected = true;
+                            _focus.Console.Invalidate();
+                            _focus.OnWidgetSelectedEvent();
 
                             if (Widgets.Count(w => w.Selected) > 1)
                                 throw new ApplicationException();
@@ -191,7 +207,7 @@ namespace DotNetGUI
                         // shift selector up/down depending on modifier key
                         unchecked
                         {
-                            selector += ((obj.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift) ? -1 : 1;
+                            _selector += ((obj.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift) ? -1 : 1;
                         }
                     }
 
@@ -208,7 +224,6 @@ namespace DotNetGUI
         {
             return w.IsSelectable && w.Visible;
         }
-
 
         /// <summary>
         /// Console
@@ -238,6 +253,7 @@ namespace DotNetGUI
         /// </summary>
         public virtual void InitializeWidget()
         {
+            WidgetProperties.Reflect(this);
             Console.ResetCursorPosition();
         }
 

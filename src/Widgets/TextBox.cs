@@ -17,8 +17,8 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// TextBox
         /// </summary>
-        /// <param name="label"></param>
         /// <param name="inputMaxLength"></param>
+        /// <param name="parent"> </param>
         public TextBox(Widget parent, int x, int y, int inputMaxLength)
             : base("", x, y, inputMaxLength, 1, parent)
         {

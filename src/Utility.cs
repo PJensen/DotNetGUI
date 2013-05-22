@@ -15,7 +15,7 @@ namespace DotNetGUI
         /// <summary>
         /// Set
         /// </summary>
-        /// <param name="c"></param>
+        /// <param name="g"> </param>
         public static void Set(this IColorScheme g)
         {
             Console.ForegroundColor = g.ForegroundColor;

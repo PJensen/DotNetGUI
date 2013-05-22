@@ -11,21 +11,17 @@ namespace DotNetGUI.Widgets
     /// <summary>
     /// ProgressBar
     /// </summary>
-   [DebuggerDisplay("{Value}")]
+    [DebuggerDisplay("{Value}")]
     public class ProgressBar : Widget
     {
         /// <summary>
-        /// Creates a new instance of <c>ProgressBar</c>
+        /// 
         /// </summary>
-        public ProgressBar(Widget parent, string text)
-            : this(parent, text, 1, 1) { }
-
-        /// <summary>
-        /// Creates a new instance of <see cref="ProgressBar"/>
-        /// </summary>
-        /// <param name="text">The inner text</param>
-        /// <param name="x">x-coordinate</param>
-        /// <param name="y">y-coordinate</param>
+        /// <param name="parent"></param>
+        /// <param name="text"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="v"></param>
         public ProgressBar(Widget parent, string text, int x, int y, double v = 0.0)
             : base(text, x, y, DefaultWidth, 1, parent)
         {
@@ -91,33 +87,36 @@ namespace DotNetGUI.Widgets
         public double Value
         {
             get { return percentValue; }
-            set 
+            set
             {
                 previousPercentValue = percentValue;
                 percentValue = value;
 
                 Console.Invalidate();
 
-                if (value != previousPercentValue)
+                
+                if (Math.Abs(value - previousPercentValue) > Epsilon)
                 {
                     if (ProgressChanged == null)
                         return;
 
-                    ProgressChanged(this, 
+                    ProgressChanged(this,
                         new GUIProgressBarEventArgs(value, previousPercentValue));
                 }
             }
         }
 
+        private const double Epsilon = 0.1;
+
         /// <summary>
         /// The backing store for the value
         /// </summary>
-        private double percentValue = 0;
+        private double percentValue;
 
         /// <summary>
         /// previousPercentValue
         /// </summary>
-        private double previousPercentValue = 0;
+        private double previousPercentValue;
 
         /// <summary>
         /// Padding on both the left and right side of progress bar.

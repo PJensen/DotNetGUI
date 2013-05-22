@@ -1,10 +1,7 @@
 ﻿using DotNetGUI.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DotNetGUI
 {
@@ -85,21 +82,20 @@ namespace DotNetGUI
 
             w.Show();
 
-            for (int y = 0; y <= w.Console.Height; ++y)
+            for (var y = 0; y <= w.Console.Height; ++y)
             {
-                for (int x = 0; x <= w.Console.Width; ++x)
+                for (var x = 0; x <= w.Console.Width; ++x)
                 {
-                    Glyph g = w.Console[x, y];
+                    var g = w.Console[x, y];
 
-                    if (Buffer[screenLocation.X + x, screenLocation.Y + y] != g)
-                    {
-                        Console.SetCursorPosition(screenLocation.X + x, screenLocation.Y + y);
-                        Console.ForegroundColor = g.FG;
-                        Console.BackgroundColor = g.BG;
-                        Console.Write(g.G);
+                    if (Buffer[screenLocation.X + x, screenLocation.Y + y] == g) continue;
 
-                        Buffer[x, y] = g;
-                    }
+                    Console.SetCursorPosition(screenLocation.X + x, screenLocation.Y + y);
+                    Console.ForegroundColor = g.FG;
+                    Console.BackgroundColor = g.BG;
+                    Console.Write(g.G);
+
+                    Buffer[x, y] = g;
                 }
             }
 
@@ -160,7 +156,7 @@ namespace DotNetGUI
         /// <returns>the screen center +/- 1</returns>
         public static Point SizeToScreenCenter(Size size)
         {
-            return new Point(GUI.ScreenWidth / 2 - size.Width / 2, GUI.ScreenHeight / 2 - size.Height / 2);
+            return new Point(ScreenWidth / 2 - size.Width / 2, ScreenHeight / 2 - size.Height / 2);
         }
 
         #region Cursor State Stack
@@ -213,7 +209,7 @@ namespace DotNetGUI
         /// <summary>
         /// syncRoot
         /// </summary>
-        private static object syncRoot = new Object();
+        private static readonly object syncRoot = new Object();
 
         /// <summary>
         /// GUI Constructor
