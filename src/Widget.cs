@@ -1,4 +1,5 @@
-﻿using DotNetGUI.Attributes;
+﻿using System.Diagnostics;
+using DotNetGUI.Attributes;
 using DotNetGUI.Events;
 using DotNetGUI.Interfaces;
 using System;
@@ -18,14 +19,29 @@ namespace DotNetGUI
         internal static int CreationOrder = 0;
 
         /// <summary>
+        /// _tabIndex
+        /// </summary>
+        int _addOrder = 0;
+
+        /// <summary>
         /// selector
         /// </summary>
         int _selector;
 
         /// <summary>
+        /// is this widget visible
+        /// </summary>
+        bool _visible;
+
+        /// <summary>
         /// Focused
         /// </summary>
         static Widget _focus;
+
+        /// <summary>
+        /// the selection direction; up or down (true or false)
+        /// </summary>
+        private bool _selectionDirection;
 
         /// <summary>
         /// Create a new Widget
@@ -168,22 +184,31 @@ namespace DotNetGUI
             if (KeyboardEvent == null || !Visible)
                 return;
 
+            if (_focus != null && _focus.KeyboardEvent != null)
+                _focus.KeyboardEvent(this, new GUIKeyboardEventArgs(obj));
+
             // Intercept all keyboard events to define top level behavior
             switch (obj.Key)
             {
-                default:
-                    if (_focus != null && _focus.KeyboardEvent != null)
-                    {
-                        _focus.KeyboardEvent(this, new GUIKeyboardEventArgs(obj));
-                    }
-                    break;
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.DownArrow:
                 case ConsoleKey.Tab:
-
                     lock (Widgets)
                     {
-                        var tmpWidgets = Widgets.Where(w => w.Visible && w.IsSelectable)
-                            .OrderByDescending(w => w.Height)
-                            .ToArray();
+                        Widget[] tmpWidgets;
+
+                        if (_selectionDirection)
+                        {
+                            tmpWidgets = Widgets.Where(w => w.Visible && w.IsSelectable)
+                               .OrderByDescending(w => w.TabIndex)
+                               .ToArray();
+                        }
+                        else
+                        {
+                            tmpWidgets = Widgets.Where(w => w.Visible && w.IsSelectable)
+                                .OrderBy(w => w.TabIndex)
+                                .ToArray();
+                        }
 
                         if (tmpWidgets.Any())
                         {
@@ -198,8 +223,8 @@ namespace DotNetGUI
                             _focus.Console.Invalidate();
                             _focus.OnWidgetSelectedEvent();
 
-                            if (Widgets.Count(w => w.Selected) > 1)
-                                throw new ApplicationException();
+                            Debug.Assert(Widgets.Count(w => w.Selected) == 1,
+                                "only one widget can be selected");
                         }
 
                         // shift selector up/down depending on modifier key
@@ -211,10 +236,20 @@ namespace DotNetGUI
 
                     break;
             }
+
+            switch (obj.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    _selectionDirection = true;
+                    break;
+                case ConsoleKey.DownArrow:
+                    _selectionDirection = false;
+                    break;
+            }
         }
 
         /// <summary>
-        /// 
+        /// SeletablePredicate
         /// </summary>
         /// <param name="w"></param>
         /// <returns></returns>
@@ -279,8 +314,27 @@ namespace DotNetGUI
         /// <param name="widget">Add a widget</param>
         public void Add(Widget widget)
         {
+            widget.TabIndex = _addOrder++;
+
             Widgets.Add(widget);
         }
+
+        /// <summary>
+        /// Add a collection of widgets as children to this widget
+        /// </summary>
+        /// <param name="widgets">the widgets to add to this widget</param>
+        public void Add(IEnumerable<Widget> widgets)
+        {
+            foreach (var widget in widgets)
+            {
+                Add(widget);
+            }
+        }
+
+        /// <summary>
+        /// TabIndex
+        /// </summary>
+        public int TabIndex { get; private set; }
 
         /// <summary>
         /// Width
@@ -321,7 +375,21 @@ namespace DotNetGUI
         /// <summary>
         /// Visible
         /// </summary>
-        public bool Visible { get; set; }
+        public bool Visible
+        {
+            get { return _visible; }
+            set
+            {
+                if (value == _visible)
+                {
+                    return;
+                }
+
+                _visible = value;
+
+                OnVisibilityChangedEvent(new GUIVisibilityChangedEventArgs(value));
+            }
+        }
 
         /// <summary>
         /// WidgetID
@@ -385,6 +453,22 @@ namespace DotNetGUI
         /// WidgetSelectedEvent
         /// </summary>
         public event EventHandler WidgetSelectedEvent;
+
+        /// <summary>
+        /// VisibilityChangedEvent
+        /// <remarks>occurs when visibility changes</remarks>
+        /// </summary>
+        public event EventHandler<GUIVisibilityChangedEventArgs> VisibilityChangedEvent;
+
+        /// <summary>
+        /// OnVisibilityChangedEvent
+        /// </summary>
+        /// <param name="e">visibility change event</param>
+        protected virtual void OnVisibilityChangedEvent(GUIVisibilityChangedEventArgs e)
+        {
+            var handler = VisibilityChangedEvent;
+            if (handler != null) handler(this, e);
+        }
 
         #endregion
 
@@ -453,11 +537,11 @@ namespace DotNetGUI
                     Console.Write('═');
             }
 
-            string spacer = string.Empty;
-            for (int c = 0; c < w - 2; ++c)
+            var spacer = string.Empty;
+            for (var c = 0; c < w - 2; ++c)
                 spacer += " ";
 
-            for (int c = 1; c < h; ++c)
+            for (var c = 1; c < h; ++c)
             {
                 Console.SetCursorPosition(x + 1, y + 1);
                 Console.Write(spacer);
@@ -474,14 +558,22 @@ namespace DotNetGUI
         /// <param name="h">The Height.</param>
         public void Box(string aTitle, int x, int y, int w, int h)
         {
-            int l = aTitle.Length;
-            if (l < w)
+            while (true)
             {
-                Box(x, y, w, h);
-                Console.SetCursorPosition(x + ((w / 2) - (l / 2)), y);
-                Console.Write(aTitle);
+                var l = aTitle.Length;
+                if (l < w)
+                {
+                    Box(x, y, w, h);
+                    Console.SetCursorPosition(x + ((w / 2) - (l / 2)), y);
+                    Console.Write(aTitle);
+                }
+                else
+                {
+                    w = l + 2;
+                    continue;
+                }
+                break;
             }
-            else Box(aTitle, x, y, l + 2, h);
         }
 
         /// <summary>
