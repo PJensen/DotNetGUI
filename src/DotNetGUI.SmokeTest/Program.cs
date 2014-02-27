@@ -55,7 +55,6 @@ namespace ConsoleTest
             main.Add(button2);
             main.Add(buttonPlus);
             main.Add(buttonMinus);
-            main.InitializeWidget();
             GUI.Instance.Run(main);
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotNetGUI.Events
+﻿namespace DotNetGUI.Events
 {
     /// <summary>
     /// GUIEventProgressBarEventArgs
@@ -14,7 +8,8 @@ namespace DotNetGUI.Events
         /// <summary>
         /// GUIEventProgressBarEventArgs
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="newValue"></param>
+        /// <param name="prevValue"></param>
         public GUIProgressBarEventArgs(double newValue, double prevValue)
         {
             NewValue = newValue;

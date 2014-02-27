@@ -1,12 +1,9 @@
-﻿using System.Diagnostics;
-using DotNetGUI.Attributes;
+﻿using DotNetGUI.Attributes;
 using DotNetGUI.Events;
 using DotNetGUI.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI
 {
@@ -23,7 +20,7 @@ namespace DotNetGUI
         /// <summary>
         /// selector
         /// </summary>
-        int _selector = 0;
+        int _selector;
 
         /// <summary>
         /// Focused
@@ -54,7 +51,7 @@ namespace DotNetGUI
         /// <param name="parent"> </param>
         protected Widget(string text, int x, int y, int width, int height, Widget parent = null)
         {
-            WidgetID = CreationOrder++;
+            WidgetId = CreationOrder++;
 
             Size = new Size(width, height);
             Location = new Point(x, y);
@@ -71,7 +68,7 @@ namespace DotNetGUI
 
             // TODO: Keyboard events only fired from root widget
             // this needs to be moved.
-            if (WidgetID < 1)
+            if (WidgetId < 1)
             {
                 GUI.Instance.KeyboardCallback += Instance_KeyboardCallback;
             }
@@ -114,6 +111,7 @@ namespace DotNetGUI
         /// <param name="y">y-coordinate</param>
         /// <param name="width">the widget of the widget</param>
         /// <param name="height">the height of the widget</param>
+        /// <param name="parent"></param>
         protected Widget(int x, int y, int width, int height, Widget parent = null)
             : this("", x, y, width, height, parent) { }
 
@@ -132,7 +130,7 @@ namespace DotNetGUI
 
             foreach (var w in root.Widgets)
             {
-                if (predicate == null || (predicate != null && predicate(w)))
+                if (predicate == null || predicate(w))
                 {
                     lock (w)
                     {
@@ -328,7 +326,7 @@ namespace DotNetGUI
         /// <summary>
         /// WidgetID
         /// </summary>
-        public int WidgetID { get; private set; }
+        public int WidgetId { get; private set; }
 
         /// <summary>
         /// The parent widget

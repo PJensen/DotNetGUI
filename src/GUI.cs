@@ -39,7 +39,7 @@ namespace DotNetGUI
                 PushCursorState();
 
                 // critical section
-                lock (syncRoot)
+                lock (SyncRoot)
                 {
                     Widget.Traverse(DrawWidget, root, w => w.Console.Invalidated && w.Visible);
                 }
@@ -51,14 +51,14 @@ namespace DotNetGUI
         /// <summary>
         /// consoleSize
         /// </summary>
-        readonly static Size consoleSize = new Size(Console.WindowWidth, Console.WindowHeight);
+        readonly static Size ConsoleSize = new Size(Console.WindowWidth, Console.WindowHeight);
 
         /// <summary>
         /// StartKeyboardInputThread
         /// </summary>
         private void StartKeyboardInputThread()
         {
-            ThreadPool.QueueUserWorkItem((object state) =>
+            ThreadPool.QueueUserWorkItem(state =>
             {
                 while (!done)
                 {
@@ -108,7 +108,7 @@ namespace DotNetGUI
         static GUI()
         {
             CursorStateStack = new Stack<Utility.CursorState>();
-            Buffer = new DisplayBuffer(consoleSize);
+            Buffer = new DisplayBuffer(ConsoleSize);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace DotNetGUI
         /// <summary>
         /// ScreenSize
         /// </summary>
-        public static Size ScreenSize { get { return consoleSize; } }
+        public static Size ScreenSize { get { return ConsoleSize; } }
 
         /// <summary>
         /// Return the screen center relative to the passed size
@@ -204,12 +204,12 @@ namespace DotNetGUI
         /// <summary>
         /// instance
         /// </summary>
-        private static volatile GUI instance;
+        private static volatile GUI _instance;
 
         /// <summary>
         /// syncRoot
         /// </summary>
-        private static readonly object syncRoot = new Object();
+        private static readonly object SyncRoot = new Object();
 
         /// <summary>
         /// GUI Constructor
@@ -223,16 +223,16 @@ namespace DotNetGUI
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    lock (syncRoot)
+                    lock (SyncRoot)
                     {
-                        if (instance == null)
-                            instance = new GUI();
+                        if (_instance == null)
+                            _instance = new GUI();
                     }
                 }
 
-                return instance;
+                return _instance;
             }
         }
 

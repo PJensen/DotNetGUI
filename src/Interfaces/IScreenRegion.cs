@@ -1,5 +1,4 @@
-﻿using System;
-namespace DotNetGUI.Interfaces
+﻿namespace DotNetGUI.Interfaces
 {
     /// <summary>
     /// IScreenRegion

@@ -1,10 +1,6 @@
 ﻿using DotNetGUI.Events;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI.Widgets
 {
@@ -14,9 +10,9 @@ namespace DotNetGUI.Widgets
     [DebuggerDisplay("{Text}")]
     public class Button : Widget
     {
-        readonly ButtonDecoration decoration;
-        readonly char leftDecoration;
-        readonly char rightDecoration;
+        readonly ButtonDecoration _decoration;
+        readonly char _leftDecoration;
+        readonly char _rightDecoration;
 
         /// <summary>
         /// Create a new button
@@ -24,26 +20,26 @@ namespace DotNetGUI.Widgets
         public Button(Widget parent, String text, int x, int y, ButtonDecoration decor = ButtonDecoration.SquareBracket)
             : base(text, x, y, text.Length + 2, 1, parent)
         {
-            this.decoration = decor;
+            _decoration = decor;
 
             switch (decor)
             {
                 case ButtonDecoration.AngleBracket:
-                    leftDecoration = DECORATION_ANGLE_L;
-                    rightDecoration = DECORATION_ANGLE_R;
+                    _leftDecoration = DecorationAngleL;
+                    _rightDecoration = DecorationAngleR;
                     break;
 
                 case ButtonDecoration.Stars:
-                    leftDecoration = DECORATION_STAR;
-                    rightDecoration = DECORATION_STAR;
+                    _leftDecoration = DecorationStar;
+                    _rightDecoration = DecorationStar;
                     break;
                 case ButtonDecoration.SquareBracket:
-                    leftDecoration = DECORATION_SQUARE_L;
-                    rightDecoration = DECORATION_SQUARE_R;
+                    _leftDecoration = DecorationSquareL;
+                    _rightDecoration = DecorationSquareR;
                     break;
             }
 
-            Text = string.Format("{0}{1}{2}", leftDecoration, text, rightDecoration);
+            Text = string.Format("{0}{1}{2}", _leftDecoration, text, _rightDecoration);
 
             EnableSelection();
 
@@ -51,11 +47,11 @@ namespace DotNetGUI.Widgets
         }
 
         /// <summary>
-        /// InitializeWidget
+        /// Gets the button decoration
         /// </summary>
-        public override void InitializeWidget()
+        public ButtonDecoration Decoration
         {
-            base.InitializeWidget();
+            get { return _decoration; }
         }
 
         /// <summary>
@@ -63,12 +59,10 @@ namespace DotNetGUI.Widgets
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void Button_KeyboardEvent(object sender, Events.GUIKeyboardEventArgs e)
+        void Button_KeyboardEvent(object sender, GUIKeyboardEventArgs e)
         {
             switch (e.ConsoleKeyInfo.Key)
             {
-                default:
-                    break;
                 case ConsoleKey.Enter:
                     if (OkayEvent != null)
                         OkayEvent(this, new GUIEventArgs());
@@ -96,7 +90,7 @@ namespace DotNetGUI.Widgets
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Blue;
                 }
-                else 
+                else
                 {
                     // normal text style
                     if (Selected)
@@ -112,13 +106,13 @@ namespace DotNetGUI.Widgets
                 }
 
                 Console.Write(Text[index]);
-            } 
+            }
         }
 
         /// <summary>
         /// ButtonDecoration
         /// </summary>
-        public enum ButtonDecoration 
+        public enum ButtonDecoration
         {
             SquareBracket,
             AngleBracket,
@@ -130,27 +124,27 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// The decoration on the right of the button
         /// </summary>
-        const char DECORATION_SQUARE_R = ']';
+        const char DecorationSquareR = ']';
 
         /// <summary>
         /// The decoration ont he left of the button
         /// </summary>
-        const char DECORATION_SQUARE_L = '[';
+        const char DecorationSquareL = '[';
 
         /// <summary>
         /// The decoration on the right of the button
         /// </summary>
-        const char DECORATION_ANGLE_R = '>';
+        const char DecorationAngleR = '>';
 
         /// <summary>
         /// The decoration ont he left of the button
         /// </summary>
-        const char DECORATION_ANGLE_L = '<';
+        const char DecorationAngleL = '<';
 
         /// <summary>
         /// The decoration on the right of the button
         /// </summary>
-        const char DECORATION_STAR = '*';
+        const char DecorationStar = '*';
 
         #endregion
     }

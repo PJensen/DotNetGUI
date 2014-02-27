@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DotNetGUI.Interfaces;
 
 namespace DotNetGUI.Attributes
@@ -44,6 +40,7 @@ namespace DotNetGUI.Attributes
         /// <param name="height">the height</param>
         /// <param name="fg">the forground color (default white)</param>
         /// <param name="bg">the background color (default black)</param>
+        /// <param name="visible"></param>
         public WidgetProperties(string text, int x, int y, int width, int height, ConsoleColor fg = ConsoleColor.White, ConsoleColor bg = ConsoleColor.Black, bool visible = true)
         {
             Text = text;

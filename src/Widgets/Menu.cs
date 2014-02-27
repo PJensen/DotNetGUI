@@ -1,9 +1,6 @@
-﻿using DotNetGUI.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI.Widgets
 {
@@ -31,15 +28,13 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="location"></param>
+        /// <param name="p"></param>
         public void Show(Point p)
         {
-            System.Console.SetCursorPosition(1, 1);
+            Console.SetCursorPosition(1, 1);
+
             foreach(var m1 in MenuItems)
-            {
-                System.Console.WriteLine(m1.Name);
-            }
-            
+                Console.Write(m1.Name);
         }
 
         /// <summary>
@@ -50,7 +45,7 @@ namespace DotNetGUI.Widgets
         {
             Clear();
 
-            for (int index = 0; index < MenuItems.Count; ++index)
+            for (var index = 0; index < MenuItems.Count; ++index)
             {
                 Console.SetCursorPosition(1, index);
                 Console.Write("> " + MenuItems[index].Name);

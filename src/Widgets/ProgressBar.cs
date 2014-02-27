@@ -1,10 +1,6 @@
 ﻿using DotNetGUI.Events;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI.Widgets
 {
@@ -28,9 +24,9 @@ namespace DotNetGUI.Widgets
             Value = v;
 
             // init progress-bar colour scheme
-            TC = ConsoleColor.Yellow;
-            BG = ConsoleColor.Cyan;
-            FG = ConsoleColor.Black;
+            _tc = ConsoleColor.Yellow;
+            _bg = ConsoleColor.Cyan;
+            _fg = ConsoleColor.Black;
 
             DisableSelection();
         }
@@ -43,17 +39,17 @@ namespace DotNetGUI.Widgets
             base.Show();
 
             // set-up the colour scheme
-            Console.ForegroundColor = FG;
-            Console.BackgroundColor = BG;
+            Console.ForegroundColor = _fg;
+            Console.BackgroundColor = _bg;
 
             // actually perform the drawing mechanicially
             for (int index = 0; index < Width; index++)
             {
                 // deliniate progress using colour.
                 if (index > (Width / 100.0) * Value && Value > 0)
-                    Console.BackgroundColor = TC;
+                    Console.BackgroundColor = _tc;
                 else if (Value >= 100.0)
-                    Console.BackgroundColor = TC;
+                    Console.BackgroundColor = _tc;
 
                 // draw the text
                 if (index > TextOffset)
@@ -62,7 +58,7 @@ namespace DotNetGUI.Widgets
                     if (offset < Text.Length)
                     {
                         var tmpFG1 = Console.ForegroundColor;
-                        Console.ForegroundColor = FG;
+                        Console.ForegroundColor = _fg;
                         Console.Write(Text[offset]);
                         Console.ForegroundColor = tmpFG1;
                     }
@@ -86,23 +82,21 @@ namespace DotNetGUI.Widgets
         /// </summary>
         public double Value
         {
-            get { return percentValue; }
+            get { return _percentValue; }
             set
             {
-                previousPercentValue = percentValue;
-                percentValue = value;
+                _previousPercentValue = _percentValue;
+                _percentValue = value;
 
                 Console.Invalidate();
 
-                
-                if (Math.Abs(value - previousPercentValue) > Epsilon)
-                {
-                    if (ProgressChanged == null)
-                        return;
 
-                    ProgressChanged(this,
-                        new GUIProgressBarEventArgs(value, previousPercentValue));
-                }
+                if (!(Math.Abs(value - _previousPercentValue) > Epsilon)) return;
+
+                if (ProgressChanged == null)
+                    return;
+
+                ProgressChanged(this, new GUIProgressBarEventArgs(value, _previousPercentValue));
             }
         }
 
@@ -111,17 +105,12 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// The backing store for the value
         /// </summary>
-        private double percentValue;
+        private double _percentValue;
 
         /// <summary>
         /// previousPercentValue
         /// </summary>
-        private double previousPercentValue;
-
-        /// <summary>
-        /// Padding on both the left and right side of progress bar.
-        /// </summary>
-        const int Padding = 2;
+        private double _previousPercentValue;
 
         /// <summary>
         /// the default width for any progress bar.
@@ -136,17 +125,17 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// foreground colour, generally text for a progress bar
         /// </summary>
-        readonly ConsoleColor FG;
+        readonly ConsoleColor _fg;
 
         /// <summary>
         /// the background colour
         /// </summary>
-        readonly ConsoleColor BG;
+        readonly ConsoleColor _bg;
 
         /// <summary>
         /// a third colour, for % that has been completed
         /// </summary>
-        readonly ConsoleColor TC;
+        readonly ConsoleColor _tc;
 
         /// <summary>
         /// ProgressChanged

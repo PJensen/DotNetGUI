@@ -28,7 +28,8 @@ namespace DotNetGUI.Widgets
         /// 
         /// </summary>
         /// <param name="p"></param>
-        /// <param name="s"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         public Panel(IPoint p, int width, int height)
             : base(p.X, p.Y, width, height)
         {

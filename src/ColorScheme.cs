@@ -1,16 +1,12 @@
 ﻿using DotNetGUI.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI
 {
     /// <summary>
     /// ColorScheme
     /// </summary>
-    public class ColorScheme : IColorScheme
+    public class ColorScheme : IColorScheme, IEquatable<ColorScheme>
     {
         /// <summary>
         /// ColorScheme
@@ -45,16 +41,38 @@ namespace DotNetGUI
         }
 
         /// <summary>
+        /// ColorScheme
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(ColorScheme other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return ForegroundColor == other.ForegroundColor && BackgroundColor == other.BackgroundColor;
+        }
+
+        /// <summary>
+        /// Equals
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals((ColorScheme) obj);
+        }
+
+        /// <summary>
         /// GetHashCode
         /// </summary>
-        /// <returns>the hash code for this color scheme</returns>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             unchecked
             {
-                var result = BackgroundColor.GetHashCode();
-                result = (result ^ 397) + ForegroundColor.GetHashCode();
-                return result;
+                return ((int) ForegroundColor*397) ^ (int) BackgroundColor;
             }
         }
     }

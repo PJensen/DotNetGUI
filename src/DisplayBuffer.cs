@@ -1,10 +1,7 @@
 ﻿using DotNetGUI.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI
 {
@@ -31,7 +28,7 @@ namespace DotNetGUI
         public DisplayBuffer(Size dimension)
         {
             Size = dimension;
-            Buffer = new Glyph[dimension.Width + 1, dimension.Height + 1];
+            _buffer = new Glyph[dimension.Width + 1, dimension.Height + 1];
             CursorLocation = new Point(0, 0);
             ForegroundColor = ConsoleColor.White;
             Invalidate();
@@ -45,8 +42,8 @@ namespace DotNetGUI
         /// <returns>A glyph</returns>
         public Glyph this[int x, int y]
         {
-            get { Invalidate();  return Buffer[x, y]; }
-            set { Buffer[x, y] = value; }
+            get { Invalidate();  return _buffer[x, y]; }
+            set { _buffer[x, y] = value; }
         }
 
         /// <summary>
@@ -56,8 +53,8 @@ namespace DotNetGUI
         /// <returns>A glyph</returns>
         public Glyph this[IPoint p]
         {
-            get { Invalidate(); return Buffer[p.X, p.Y]; }
-            set { Buffer[p.X, p.Y] = value; }
+            get { Invalidate(); return _buffer[p.X, p.Y]; }
+            set { _buffer[p.X, p.Y] = value; }
         }
 
         #region Console Cursor
@@ -89,7 +86,7 @@ namespace DotNetGUI
             {
                 for (var x = 0; x < Width; ++x)
                 {
-                    action(Buffer, x, y);
+                    action(_buffer, x, y);
                 }
             }
         }
@@ -100,9 +97,9 @@ namespace DotNetGUI
         /// <param name="colorScheme">the color scheme to update</param>
         public void BulkColorUpdate(IColorScheme colorScheme)
         {
-            IterateOver((Glyph[,] buf, int x, int y) => 
+            IterateOver((buf, x, y) => 
             {
-                buf[x, y] = new Glyph(Buffer[x, y].G, colorScheme.ForegroundColor, colorScheme.BackgroundColor); 
+                buf[x, y] = new Glyph(_buffer[x, y].G, colorScheme.ForegroundColor, colorScheme.BackgroundColor); 
             });
 
             if (!Invalidated)
@@ -203,7 +200,7 @@ namespace DotNetGUI
         /// <summary>
         /// Buffer
         /// </summary>
-        readonly Glyph[,] Buffer;
+        readonly Glyph[,] _buffer;
 
         /// <summary>
         /// Size

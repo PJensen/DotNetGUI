@@ -12,7 +12,6 @@ namespace DotNetGUI.Widgets
     /// </summary>
     public class Label : Widget
     {
-
         /// <summary>
         /// Label
         /// </summary>
@@ -52,22 +51,6 @@ namespace DotNetGUI.Widgets
             {
                 throw new ArgumentException("Moving relative to object took us into negative territory.");
             }
-        }
-
-        /// <summary>
-        /// InitializeWidget
-        /// </summary>
-        public override void InitializeWidget()
-        {
-            base.InitializeWidget();
-        }
-
-        /// <summary>
-        /// Hide
-        /// </summary>
-        public override void Hide()
-        {
-            base.Hide();
         }
 
         /// <summary>

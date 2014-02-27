@@ -1,9 +1,5 @@
 ﻿using DotNetGUI.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI
 {
@@ -26,13 +22,8 @@ namespace DotNetGUI
         /// CursorState,
         ///     Basic cursor information.
         /// </summary>
-        public class CursorState : IColorScheme
+        public class CursorState : IColorScheme, IEquatable<CursorState>
         {
-            /// <summary>
-            /// Static constructor; mainly for the CursorStateStack.
-            /// </summary>
-            static CursorState() { }
-
             /// <summary>
             /// Create a new CursorState object
             /// </summary>
@@ -42,7 +33,11 @@ namespace DotNetGUI
             /// <param name="bg">background colour</param>
             public CursorState(int x, int y, ConsoleColor fg, ConsoleColor bg)
             {
-                X = x; Y = y; ForegroundColor = fg; BackgroundColor = bg;
+                X = x;
+                Y = y;
+
+                ForegroundColor = fg;
+                BackgroundColor = bg;
             }
 
             /// <summary>
@@ -64,6 +59,50 @@ namespace DotNetGUI
             /// The foreground colour
             /// </summary>
             public ConsoleColor ForegroundColor { get; set; }
+
+            /// <summary>
+            /// Equals
+            /// </summary>
+            /// <param name="other"></param>
+            /// <returns></returns>
+            public bool Equals(CursorState other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                return ForegroundColor == other.ForegroundColor &&
+                    BackgroundColor == other.BackgroundColor &&
+                    Y == other.Y &&
+                    X == other.X;
+            }
+
+            /// <summary>
+            /// Equals
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <returns></returns>
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != GetType()) return false;
+                return Equals((CursorState)obj);
+            }
+
+            /// <summary>
+            /// GetHashCode
+            /// </summary>
+            /// <returns></returns>
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    var hashCode = (int)ForegroundColor;
+                    hashCode = (hashCode * 397) ^ (int)BackgroundColor;
+                    hashCode = (hashCode * 397) ^ Y;
+                    hashCode = (hashCode * 397) ^ X;
+                    return hashCode;
+                }
+            }
         }
     }
 }

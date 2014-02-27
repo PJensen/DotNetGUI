@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI
 {
@@ -22,40 +18,40 @@ namespace DotNetGUI
         /// <param name="bg">the background color</param>
         public Glyph(char g, ConsoleColor fg = ConsoleColor.White, ConsoleColor bg = ConsoleColor.Black)
         {
-            this.fg = fg;
-            this.bg = bg;
-            this.g = g;
+            _fg = fg;
+            _bg = bg;
+            _g = g;
         }
 
         /// <summary>
         /// the foreground color
         /// </summary>
-        readonly ConsoleColor fg;
+        readonly ConsoleColor _fg;
 
         /// <summary>
         /// the background color
         /// </summary>
-        readonly ConsoleColor bg;
+        readonly ConsoleColor _bg;
 
         /// <summary>
         /// the character or symbol
         /// </summary>
-        readonly char g;
+        readonly char _g;
 
         /// <summary>
         /// The foreground color of this glyph
         /// </summary>
-        public ConsoleColor FG { get { return fg; } }
+        public ConsoleColor FG { get { return _fg; } }
 
         /// <summary>
         /// The foreground color of this glyph
         /// </summary>
-        public ConsoleColor BG { get { return bg; } }
+        public ConsoleColor BG { get { return _bg; } }
 
         /// <summary>
         /// The character symbol for this glyph
         /// </summary>
-        public char G { get { return g; } }
+        public char G { get { return _g; } }
 
         /// <summary>
         /// 

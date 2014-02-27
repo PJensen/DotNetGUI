@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI.Widgets
 {
@@ -32,14 +28,6 @@ namespace DotNetGUI.Widgets
         public Window(Widget parent = null)
             : base(parent)
         {
-        }
-
-        /// <summary>
-        /// InitializeWidget
-        /// </summary>
-        public override void InitializeWidget()
-        {
-            base.InitializeWidget();
         }
 
         /// <summary>

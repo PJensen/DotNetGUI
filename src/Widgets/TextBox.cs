@@ -1,10 +1,5 @@
-﻿using DotNetGUI.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI.Widgets
 {
@@ -17,22 +12,16 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// TextBox
         /// </summary>
+        /// <param name="y"></param>
         /// <param name="inputMaxLength"></param>
         /// <param name="parent"> </param>
+        /// <param name="x"></param>
         public TextBox(Widget parent, int x, int y, int inputMaxLength)
             : base("", x, y, inputMaxLength, 1, parent)
         {
             MaxLength = inputMaxLength;
             EnableSelection();
             KeyboardEvent += TextBox_KeyboardEvent;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public override void InitializeWidget()
-        {
-            base.InitializeWidget();
         }
 
         /// <summary>
@@ -45,7 +34,7 @@ namespace DotNetGUI.Widgets
             if (!Visible)
                 return;
 
-            char tmpChar = e.ConsoleKeyInfo.KeyChar;
+            var tmpChar = e.ConsoleKeyInfo.KeyChar;
 
             switch (e.ConsoleKeyInfo.Key)
             {
@@ -99,30 +88,14 @@ namespace DotNetGUI.Widgets
         /// </summary>
         public override void Show()
         {
-            const char DEFAULT_CHAR = ' ';
+            const char defaultChar = ' ';
 
             base.Show();
 
-            if (Selected)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkGray;
-            }
-            else
-            {
-                Console.BackgroundColor = ConsoleColor.Black;
-            }
+            Console.BackgroundColor = Selected ? ConsoleColor.DarkGray : ConsoleColor.Black;
 
-            for (int index = 0; index < MaxLength; ++index)
-            {
-                if (index < Text.Length)
-                {
-                    Console.Write(Text[index]);
-                }
-                else
-                {
-                    Console.Write(DEFAULT_CHAR);
-                }
-            }
+            for (var index = 0; index < MaxLength; ++index)
+                Console.Write(index < Text.Length ? Text[index] : defaultChar);
         }
 
         /// <summary>

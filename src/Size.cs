@@ -1,16 +1,12 @@
 ﻿using DotNetGUI.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetGUI
 {
     /// <summary>
     /// Size
     /// </summary>
-    public class Size : IDimensional
+    public class Size : IDimensional, IEquatable<Size>
     {
         /// <summary>
         /// Size
@@ -32,5 +28,41 @@ namespace DotNetGUI
         /// Height
         /// </summary>
         public int Height { get; set; }
+
+        /// <summary>
+        /// Equals
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Size other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Height == other.Height && Width == other.Width;
+        }
+
+        /// <summary>
+        /// Equals
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals((Size)obj);
+        }
+
+        /// <summary>
+        /// GetHashCode
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Height * 397) ^ Width;
+            }
+        }
     }
 }

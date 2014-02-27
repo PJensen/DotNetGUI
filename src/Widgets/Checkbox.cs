@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DotNetGUI.Widgets
 {
@@ -85,7 +82,7 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// Checked
         /// </summary>
-        private bool _checked = false;
+        private bool _checked;
 
         /// <summary>
         /// OnChecked

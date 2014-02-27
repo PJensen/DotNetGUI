@@ -11,7 +11,7 @@
         public MenuBar(Window parent, params Menu.MenuItem[] items)
             : base("", parent.Location.X + 2, parent.Location.Y, 0, 0)
         {
-            int x = 1;
+            var x = 1;
 
             foreach (var m in items)
             {
@@ -20,7 +20,7 @@
                     Visible = true,
                 };
 
-                Menu.MenuItem m1 = m;
+                var m1 = m;
 
                 tmpMenuButton.OkayEvent += (sender, e) => m1.MAction();
 
