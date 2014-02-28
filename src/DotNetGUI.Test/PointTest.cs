@@ -27,26 +27,39 @@ namespace DotNetGUI.Test
             Assert.AreEqual(expectedYCoordinate, p1.Y, "unexpected y-coordinate");
         }
 
+
         [TestMethod]
-        public void PointInequalityTest()
+        [Description("== and != operators for Point")]
+        public void PointOperatorEquality()
         {
             var p1 = new Point(20, 10);
-            object p2 = new Point(10, 20);
-            Assert.AreNotEqual(p1, p2, "expected points to not be equal");
+            var p2 = new Point(10, 20);
+            var p3 = p1;
+
+            Assert.AreNotSame(p1, p3);
+            Assert.IsTrue(p1 == p3, "== operator");
+            Assert.IsTrue(p1 != p2, "!= operator");
         }
 
         [TestMethod]
         [Description("point equality test")]
-        public void PointEqualityTest()
+        public void PointEquals()
         {
             var p1 = new Point(20, 20);
             object p2 = new Point(20, 20);
             Assert.AreEqual(p1, p2, "expected points to be equal");
+
+            var p3 = new Point(20, 10);
+            object p4 = new Point(10, 20);
+            Assert.IsFalse(p3.Equals(p4), "expected points to not be equal");
+
+            Assert.IsFalse(p3.Equals(new object()), "expected points to not be equal");
+            Assert.IsFalse(p3.Equals(null), "expected points to not be equal");
         }
 
         [TestMethod]
         [Description("point toString test")]
-        public void PointToStringTest()
+        public void PointToString()
         {
             const int expectedX = 20;
             const int expectedY = 21;
@@ -56,17 +69,8 @@ namespace DotNetGUI.Test
         }
 
         [TestMethod]
-        [Description("point equality test")]
-        public void PointInequalityOperatorTest()
-        {
-            var p1 = new Point(20, 20);
-            var p2 = new Point(0, 0);
-            Assert.IsFalse(p1 == p2, "expected points to be equal");
-        }
-
-        [TestMethod]
         [Description("point hashcode test")]
-        public void PointHashcodeTest()
+        public void PointGetHashCode()
         {
             var p1 = new Point(20, 20);
             var p2 = new Point(20, 20);
@@ -76,19 +80,8 @@ namespace DotNetGUI.Test
         }
 
         [TestMethod]
-        [Description("point hashcode test")]
-        public void PointEqualityOperatorTest()
-        {
-            var p1 = new Point(10, 10);
-            var p2 = p1;
-
-            Assert.AreNotSame(p1, p2);
-            Assert.IsTrue(p1 == p2);
-        }
-
-        [TestMethod]
         [Description("Tests the explict (x,y) constructor for a point in all quadrants")]
-        public void PointQuadrantAndAxisTest()
+        public void PointQuadrantAndAxis()
         {
             var axisAndQuadrants = new [] { -1, 0, 1 };
 
