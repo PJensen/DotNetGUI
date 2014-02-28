@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DotNetGUI.Test
@@ -41,6 +42,17 @@ namespace DotNetGUI.Test
             var p1 = new Point(20, 20);
             object p2 = new Point(20, 20);
             Assert.AreEqual(p1, p2, "expected points to be equal");
+        }
+
+        [TestMethod]
+        [Description("point toString test")]
+        public void PointToStringTest()
+        {
+            const int expectedX = 20;
+            const int expectedY = 21;
+            var p1 = new Point(expectedX, expectedY);
+            Assert.IsTrue(p1.ToString().Contains(expectedX.ToString(CultureInfo.InvariantCulture)));
+            Assert.IsTrue(p1.ToString().Contains(expectedY.ToString(CultureInfo.InvariantCulture)));
         }
 
         [TestMethod]
