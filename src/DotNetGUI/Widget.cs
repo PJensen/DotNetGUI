@@ -6,7 +6,7 @@ namespace DotNetGUI
     /// <summary>
     /// Widget
     /// </summary>
-    public abstract class Widget
+    public abstract class Widget :  IColorScheme
     {
         #region backing store
 
@@ -156,5 +156,15 @@ namespace DotNetGUI
         }
 
         #endregion
+
+        /// <summary>
+        /// The default background color for this widget
+        /// </summary>
+        public ConsoleColor BG { get; set; }
+
+        /// <summary>
+        /// The default foreground color for this widget
+        /// </summary>
+        public ConsoleColor FG { get; set; }
     }
 }

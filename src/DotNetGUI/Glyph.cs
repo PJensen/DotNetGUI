@@ -6,7 +6,7 @@ namespace DotNetGUI
     /// Glyph
     /// <remarks>A glyph is a combination of a character; a foreground color and a background color.</remarks>
     /// </summary>
-    public struct Glyph : IEquatable<Glyph>
+    public struct Glyph : IEquatable<Glyph>, IColorScheme
     {
         /// <summary>
         /// The character for this glyph

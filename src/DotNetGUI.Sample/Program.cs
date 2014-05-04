@@ -11,7 +11,13 @@ namespace DotNetGUI.Sample
     {
         static void Main(string[] args)
         {
-            var window = new Window(new Point(1, 1), new Size(10, 10));
+            var window = new Window(new Point(1, 1), new Size(10, 10))
+            {
+                BG = ConsoleColor.Blue,
+                FG = ConsoleColor.White,
+                Title = "Testing",
+              
+            };
 
             GUI.Instance.Run(window);
         }

@@ -126,7 +126,7 @@ namespace DotNetGUI
 
             Thread.Sleep(Timeout.Infinite);
 
-            CursorState.Pop();
+            CursorState.Pop().Set();
         }
 
         /// <summary>
@@ -190,7 +190,6 @@ namespace DotNetGUI
             // set the x and y offset for writing into the display buffer
             var xOffset = widget.Location.X;
             var yOffset = widget.Location.Y;
-
 
             widget.Draw();
 
