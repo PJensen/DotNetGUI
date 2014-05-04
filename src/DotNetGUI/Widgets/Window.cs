@@ -30,5 +30,19 @@ namespace DotNetGUI.Widgets
                 }
             };
         }
+
+        /// <summary>
+        /// Draw
+        /// </summary>
+        public sealed override void Draw()
+        {
+            base[1, 1] = new Glyph()
+                {
+                    G = 'x',
+                    FG = ConsoleColor.Cyan,
+                };
+
+            base.Draw();
+        }
     }
 }

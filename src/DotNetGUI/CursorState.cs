@@ -9,17 +9,29 @@ namespace DotNetGUI
     /// <see cref="CursorState"/>
     /// Cursor state objects trap the current cursor state
     /// at the precise time of creation. Additionally provides a 
-    /// cursor state stack for poping and pushing from
+    /// cursor state stack for poping and pushing from.
     /// </summary>
     public class CursorState : IEquatable<CursorState>
     {
+        #region constructor
+
+        /// <summary>
+        /// private <see cref="CursorState"/> constructor since these objects
+        /// should only be created and accessed via the stack.
+        /// </summary>
+        private CursorState()
+        {
+        }
+
+        #endregion
+
+        #region backing store
+
         /// <summary>
         /// CursorStates
         /// <remarks>a stack that contains cursor states</remarks>
         ///  </summary>
         private readonly static Stack<CursorState> CursorStateStack = new Stack<CursorState>();
-
-        #region backing store
 
         /// <summary>
         /// the cursor left at the time of this objects creation
@@ -68,18 +80,17 @@ namespace DotNetGUI
         }
 
         /// <summary>
-        /// Pop (and set) the cursor state from the stack
-        /// <remarks>The "Set" method has side affects</remarks>
+        /// Pop the cursor state from the stack
+        /// <remarks>The "Set" method does not have side affects</remarks>
         /// </summary>
-        public static void Pop(bool set = true)
+        public static CursorState Pop(bool set = true)
         {
-            if (!CursorStateStack.Any()) return;
+            if (!CursorStateStack.Any())
+            {
+                throw new DotNetGUIException();
+            }
 
-            var cursorState = CursorStateStack.Pop();
-
-            if (!set) return;
-
-            cursorState.Set();
+            return CursorStateStack.Pop();
         }
 
         /// <summary>
@@ -88,6 +99,23 @@ namespace DotNetGUI
         public static void Push()
         {
             CursorStateStack.Push(new CursorState());
+        }
+
+        /// <summary>
+        /// Returns the cursor state that is on the top of the stack
+        /// <remarks>
+        /// If there is nothing on the stack; simply returns the current cursor state.
+        /// </remarks>
+        /// </summary>
+        /// <returns>The top-most <see cref="CursorState"/></returns>
+        public static CursorState Peek()
+        {
+            if (!CursorStateStack.Any())
+            {
+                throw new DotNetGUIException();
+            }
+
+            return CursorStateStack.Peek();
         }
 
         #region equality members
@@ -102,10 +130,10 @@ namespace DotNetGUI
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return CursorVisible.Equals(other.CursorVisible) &&
-                CursorSize == other.CursorSize && 
-                BackgroundColor == other.BackgroundColor && 
-                ForegroundColor == other.ForegroundColor && 
-                CursorTop == other.CursorTop && 
+                CursorSize == other.CursorSize &&
+                BackgroundColor == other.BackgroundColor &&
+                ForegroundColor == other.ForegroundColor &&
+                CursorTop == other.CursorTop &&
                 CursorLeft == other.CursorLeft;
         }
 

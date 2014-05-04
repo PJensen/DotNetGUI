@@ -49,6 +49,40 @@ namespace DotNetGUI
             Size = size;
         }
 
+        #region methods
+
+        /// <summary>
+        /// Draw
+        /// </summary>
+        public virtual void Draw()
+        {
+            OnDrawEvent(new EventArgs());
+        }
+
+        #endregion
+
+        #region indexer
+
+        /// <summary>
+        /// index into the display buffer for this widget
+        /// </summary>
+        /// <param name="x">the x-coordinate</param>
+        /// <param name="y">the y-coordinate</param>
+        /// <returns>returns the <see cref="Glyph"/> at this location</returns>
+        public Glyph this[int x, int y]
+        {
+            get 
+            {
+                return _displayBuffer[x, y];
+            }
+            set 
+            {
+                _displayBuffer[x, y] = value; 
+            }
+        }
+
+        #endregion
+
         #region properties
 
         /// <summary>
@@ -108,9 +142,16 @@ namespace DotNetGUI
         #region events
 
         public event EventHandler Resized;
-        public void OnResized(EventArgs e)
+        protected void OnResized(EventArgs e)
         {
             var handler = Resized;
+            if (handler != null) handler(this, e);
+        }
+
+        public event EventHandler DrawEvent;
+        protected void OnDrawEvent(EventArgs e)
+        {
+            var handler = DrawEvent;
             if (handler != null) handler(this, e);
         }
 
