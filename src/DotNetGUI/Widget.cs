@@ -6,7 +6,7 @@ namespace DotNetGUI
     /// <summary>
     /// Widget
     /// </summary>
-    public abstract class Widget :  IColorScheme
+    public abstract class Widget : IColorScheme
     {
         #region backing store
 
@@ -71,14 +71,34 @@ namespace DotNetGUI
         /// <returns>returns the <see cref="Glyph"/> at this location</returns>
         public Glyph this[int x, int y]
         {
-            get 
+            get
             {
                 return _displayBuffer[x, y];
             }
-            set 
+            set
             {
-                _displayBuffer[x, y] = value; 
+                _displayBuffer[x, y] = value;
             }
+        }
+
+        /// <summary>
+        /// CenterOffsetX
+        /// </summary>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public int CenterOffsetX(int width)
+        {
+            return (Size.Width / 2) - (width / 2);
+        }
+
+        /// <summary>
+        /// CenterOffsetY
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public int CenterOffsetY(int height)
+        {
+            return (Size.Height / 2) - (height / 2);
         }
 
         #endregion

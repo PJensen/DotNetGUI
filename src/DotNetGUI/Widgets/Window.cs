@@ -20,8 +20,8 @@ namespace DotNetGUI.Widgets
         public Window(Point location, Size size)
             : base(location, size)
         {
-            base.BG = ConsoleColor.Blue;
-            base.FG = ConsoleColor.White;
+            BG = ConsoleColor.Blue;
+            FG = ConsoleColor.White;
 
             KeyboardCallback += delegate(ConsoleKeyInfo info)
             {
@@ -58,7 +58,7 @@ namespace DotNetGUI.Widgets
 
             #region left vertical bar
 
-            for (var x = 0; x < Size.Width; x++)
+            for (var x = 0; x < Size.Height; x++)
             {
                 base[0, x] = new Glyph
                     {
@@ -79,7 +79,7 @@ namespace DotNetGUI.Widgets
 
             #region top horizontal bar
 
-            for (var x = 0; x < Size.Height; x++)
+            for (var x = 0; x < Size.Width; x++)
             {
                 base[x, 0] = new Glyph
                     {
@@ -93,17 +93,25 @@ namespace DotNetGUI.Widgets
 
             #region bottom horizontal bar
 
-            for (var y = 0; y < Size.Height; y++)
+            for (var y = 0; y < Size.Width; y++)
             {
                 base[y, Size.Height - 1] = new Glyph
                     {
                         BG = BG,
                         FG = FG,
-                        G = y == 0 ? '╚' : y >= Size.Height - 1 ? '╝' : '═',
+                        G = y == 0 ? '╚' : y >= Size.Width - 1 ? '╝' : '═',
                     };
             }
 
             #endregion
+
+            var xOffset = CenterOffsetX(Title.Length);
+
+            for (int j = 0; j < Title.Length; j++)
+            {
+                base[j + xOffset, 0] = new Glyph(Title[j], FG, BG);
+            }
+
 
             base.Draw();
         }
