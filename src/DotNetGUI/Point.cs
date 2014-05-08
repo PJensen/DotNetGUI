@@ -13,33 +13,26 @@ namespace DotNetGUI
         /// </summary>
         public static Point Origin = new Point();
 
-        #region backing store
-
-        private readonly int _x;
-        private readonly int _y;
-
-        #endregion
-
         /// <summary>
         /// Creates a new <see cref="Point"/>
         /// </summary>
         /// <param name="x">the x-coordinate</param>
         /// <param name="y">the y-coordinate</param>
-        public Point(int x, int y)
+        public Point(int x, int y) : this()
         {
-            _x = x;
-            _y = y;
+            X = x;
+            Y = y;
         }
 
         /// <summary>
         /// The x-coordinate
         /// </summary>
-        public int X { get { return _x; } }
+        public int X { get; set; }
 
         /// <summary>
         /// The y-coordinate
         /// </summary>
-        public int Y { get { return _y; } }
+        public int Y { get; set; }
 
         /// <summary>
         /// Returns a string representation of this point
@@ -47,7 +40,7 @@ namespace DotNetGUI
         /// <returns>A string representation of this point</returns>
         public override string ToString()
         {
-            return string.Format("Y: {0}, X: {1}", _y, _x);
+            return string.Format("Y: {0}, X: {1}", Y, X);
         }
 
         /// <summary>
@@ -57,7 +50,7 @@ namespace DotNetGUI
         /// <returns></returns>
         public bool Equals(Point other)
         {
-            return _y == other._y && _x == other._x;
+            return Y == other.Y && X == other.X;
         }
 
         /// <summary>
@@ -79,7 +72,7 @@ namespace DotNetGUI
         {
             unchecked
             {
-                return (_y*397) ^ _x;
+                return (Y*397) ^ X;
             }
         }
 

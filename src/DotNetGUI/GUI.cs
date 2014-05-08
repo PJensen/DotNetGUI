@@ -177,35 +177,13 @@ namespace DotNetGUI
             });
         }
 
-        /// <summary>
-        /// MergeDisplayBuffers
-        /// 1. Actually perform the drawing step of the widget passed as an argument.
-        /// 2. Iterate over it's display buffer; setting the _secondaryBuffer - will later be used from comparison.
-        /// 3. Recurse with any controls that are attached; ordered by z-index descending.
-        /// <remarks>Merge all display buffers down to the secondary display buffer</remarks>
-        /// </summary>
-        /// <returns></returns>
-        private void MergeDownDisplayBuffers(Widget widget)
-        {
-            // set the x and y offset for writing into the display buffer
-            var xOffset = widget.Location.X;
-            var yOffset = widget.Location.Y;
 
-            widget.Draw();
 
-            for (int y = 0; y < widget.Size.Height; y++)
+        /*
+         *             foreach (var control in widget.Controls.OrderByDescending(w => w.ZIndex))
             {
-                for (int x = 0; x < widget.Size.Width; x++)
-                {
-                    _secondaryBuffer[x + xOffset, y + yOffset] = widget[x, y];
-                }
-            }
-
-            foreach (var control in widget.Controls.OrderByDescending(w => w.ZIndex))
-            {
-                MergeDownDisplayBuffers(control);
-            }
-        }
+                MergeDownDisplayBuffers(control, displayBuffer);
+            } */
 
         /// <summary>
         /// 1. Merge down display buffers for the whole screen.
@@ -220,15 +198,17 @@ namespace DotNetGUI
         /// <param name="widget"></param>
         private void DrawWidget(Widget widget)
         {
-            MergeDownDisplayBuffers(widget);
+            widget.Draw();
+
+            _secondaryBuffer.MergeDownDisplayBuffers(widget);
 
             lock (widget)
             {
-                for (int y = 0; y < _primaryBuffer.Height - 1; y++)
+                for (var y = 0; y < _primaryBuffer.Height - 1; y++)
                 {
-                    bool[] redrawColumns = new bool[_primaryBuffer.Width];
+                    var redrawColumns = new bool[_primaryBuffer.Width];
 
-                    for (int x = 0; x < _primaryBuffer.Width - 1; x++)
+                    for (var x = 0; x < _primaryBuffer.Width - 1; x++)
                     {
                         redrawColumns[x] = _secondaryBuffer[x, y] != _primaryBuffer[x, y];
                     }
@@ -238,23 +218,22 @@ namespace DotNetGUI
                         continue;
                     }
 
-                    for (int x = 0; x < _primaryBuffer.Width - 1; x++)
+                    for (var x = 0; x < _primaryBuffer.Width - 1; x++)
                     {
                         _primaryBuffer[x, y] = _secondaryBuffer[x, y];
                     }
 
                     Console.CursorTop = y;
 
-                    for (int x = 0; x < _primaryBuffer.Width - 1; x++)
+                    for (var x = 0; x < _primaryBuffer.Width - 1; x++)
                     {
-                        if (redrawColumns[x])
-                        {
-                            Console.CursorLeft = x;
-                            Console.BackgroundColor = _primaryBuffer[x, y].BG;
-                            Console.ForegroundColor = _primaryBuffer[x, y].FG;
+                        if (!redrawColumns[x]) continue;
 
-                            Console.Write(_primaryBuffer[x, y].G);
-                        }
+                        Console.CursorLeft = x;
+                        Console.BackgroundColor = _primaryBuffer[x, y].BG;
+                        Console.ForegroundColor = _primaryBuffer[x, y].FG;
+
+                        Console.Write(_primaryBuffer[x, y].G);
                     }
                 }
             }

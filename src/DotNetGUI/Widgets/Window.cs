@@ -13,10 +13,10 @@ namespace DotNetGUI.Widgets
         public string Title { get; set; }
 
         /// <summary>
-        /// 
+        /// Createa a new window at the specified point and location
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="size"></param>
+        /// <param name="location">the location</param>
+        /// <param name="size">the size</param>
         public Window(Point location, Size size)
             : base(location, size)
         {
@@ -41,9 +41,12 @@ namespace DotNetGUI.Widgets
         {
             #region fill
 
-            for (var x = 1; x < Size.Width - 1; x++)
+            var width = Size.Width;
+            var height = Size.Height;
+
+            for (var x = 1; x < width - 1; x++)
             {
-                for (var y = 1; y < Size.Height - 1; y++)
+                for (var y = 1; y < height - 1; y++)
                 {
                     base[x, y] = new Glyph
                         {
@@ -105,13 +108,16 @@ namespace DotNetGUI.Widgets
 
             #endregion
 
+            #region draw title
+
             var xOffset = CenterOffsetX(Title.Length);
 
-            for (int j = 0; j < Title.Length; j++)
+            for (var j = 0; j < Title.Length; j++)
             {
                 base[j + xOffset, 0] = new Glyph(Title[j], FG, BG);
             }
 
+            #endregion
 
             base.Draw();
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DotNetGUI
+namespace DotNetGUI.Interfaces
 {
     /// <summary>
     /// The color scheme interface is good for *anything* that has both

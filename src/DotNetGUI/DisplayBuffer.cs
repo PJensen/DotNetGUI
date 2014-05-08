@@ -1,4 +1,6 @@
-﻿namespace DotNetGUI
+﻿using DotNetGUI.Interfaces;
+
+namespace DotNetGUI
 {
     /// <summary>
     /// A <see cref="DisplayBuffer"/> is an offscreen buffer with a width and height
@@ -49,6 +51,40 @@
         {
             get { return _buffer[x, y]; }
             set { _buffer[x, y] = value; }
+        }
+
+        /// <summary>
+        /// MergeDisplayBuffers
+        /// 1. Actually perform the drawing step of the widget passed as an argument.
+        /// 2. Iterate over it's display buffer; setting the _secondaryBuffer - will later be used from comparison.
+        /// 3. Recurse with any controls that are attached; ordered by z-index descending.
+        /// <remarks>Merge all display buffers down to the secondary display buffer</remarks>
+        /// </summary>
+        /// <returns></returns>
+        internal void MergeDownDisplayBuffers(Size size, Point offset, IDisplayBuffered source)
+        {
+            for (var y = 0; y < size.Height; y++)
+            {
+                for (var x = 0; x < size.Width; x++)
+                {
+                    this[x + offset.X, y + offset.Y] = source[x, y];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        internal void MergeDownDisplayBuffers(IDisplayBuffered source)
+        {
+            for (var y = 0; y < source.DisplayBuffer.Height; y++)
+            {
+                for (var x = 0; x < source.DisplayBuffer.Width; x++)
+                {
+                    this[x + source.Location.X, y + source.Location.Y] = source[x, y];
+                }
+            }
         }
     }
 }

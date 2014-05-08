@@ -5,16 +5,32 @@ namespace DotNetGUI.Sample
 {
     class Program
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        class MainForm : Window
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public MainForm() :
+                base(new Point(0, 0), new Size(20, 15))
+            {
+                Title = "Testing";
+
+                Controls.Add(new TextBox(new Point(1, 1), 10)
+                    {
+                        Text = "Test"
+                    });
+            }
+        }
+
         static void Main(string[] args)
         {
-            var window = new Window(new Point(0, 0), new Size(12, 13))
-            {
-                BG = ConsoleColor.Blue,
-                FG = ConsoleColor.White,
-                Title = "Testing",
-            };
+            var mainForm = new MainForm();
 
-            GUI.Instance.Run(window);
+            GUI.Instance.Run(mainForm);
         }
     }
 }

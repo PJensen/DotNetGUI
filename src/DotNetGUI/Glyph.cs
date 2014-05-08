@@ -1,4 +1,5 @@
 using System;
+using DotNetGUI.Interfaces;
 
 namespace DotNetGUI
 {

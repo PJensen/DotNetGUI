@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using DotNetGUI.Interfaces;
 
 namespace DotNetGUI
 {
     /// <summary>
     /// Widget
     /// </summary>
-    public abstract class Widget : IColorScheme
+    public abstract class Widget : IColorScheme, IDisplayBuffered
     {
         #region backing store
 
@@ -56,6 +57,13 @@ namespace DotNetGUI
         /// </summary>
         public virtual void Draw()
         {
+            foreach (var control in Controls)
+            {
+                control.Draw();
+
+                DisplayBuffer.MergeDownDisplayBuffers(control);
+            }
+
             OnDrawEvent(new EventArgs());
         }
 
@@ -106,6 +114,11 @@ namespace DotNetGUI
         #region properties
 
         /// <summary>
+        /// DisplayBuffer
+        /// </summary>
+        public DisplayBuffer DisplayBuffer { get { return _displayBuffer; } }
+
+        /// <summary>
         /// TabIndex
         /// <remarks>The tab index is the order in which this and 
         /// other widgets may be tabbed through.</remarks>
@@ -131,7 +144,12 @@ namespace DotNetGUI
             get { return _location; }
             set
             {
+                if (_location.Equals(value))
+                    return;
+                
                 _location = value;
+
+                OnMoved();
             }
         }
 
@@ -148,7 +166,7 @@ namespace DotNetGUI
 
                 _size = value;
 
-                OnResized(new EventArgs());
+                OnResized();
             }
         }
 
@@ -162,10 +180,17 @@ namespace DotNetGUI
         #region events
 
         public event EventHandler Resized;
-        protected void OnResized(EventArgs e)
+        protected virtual void OnResized()
         {
             var handler = Resized;
-            if (handler != null) handler(this, e);
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        public event EventHandler Moved;
+        protected virtual void OnMoved()
+        {
+            var handler = Moved;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
         public event EventHandler DrawEvent;

@@ -15,7 +15,7 @@ namespace DotNetGUI
         #region backing store
 
         private readonly int _width;
-        private readonly int _height; 
+        private readonly int _height;
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace DotNetGUI
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is Size && Equals((Size) obj);
+            return obj is Size && Equals((Size)obj);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace DotNetGUI
         {
             unchecked
             {
-                return (_height*397) ^ _width;
+                return (_height * 397) ^ _width;
             }
         }
 
