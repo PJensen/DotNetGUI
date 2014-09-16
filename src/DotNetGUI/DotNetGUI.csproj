@@ -43,6 +43,7 @@
     <Compile Include="DisplayBuffer.cs" />
     <Compile Include="DotNetGUIException.cs" />
     <Compile Include="Events\DotNetGUIEventHandler.cs" />
+    <Compile Include="Events\KeyboardCallback.cs" />
     <Compile Include="Glyph.cs" />
     <Compile Include="GUI.cs" />
     <Compile Include="Interfaces\IColorScheme.cs" />

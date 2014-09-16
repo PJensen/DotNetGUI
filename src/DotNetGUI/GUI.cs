@@ -5,16 +5,6 @@ using System.Linq;
 
 namespace DotNetGUI
 {
-    #region GUI delegates
-
-    /// <summary>
-    /// KeyboardCallback delegate
-    /// </summary>
-    /// <param name="keyInfo">the keypress info</param>
-    public delegate void KeyboardCallback(ConsoleKeyInfo keyInfo);
-
-    #endregion
-
     /// <summary>
     /// The <see cref="GUI"/> static class can be used for 
     /// perform higher level GUI operations on various widgets.

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DotNetGUI.Widgets
 {
     /// <summary>
     /// Window
     /// </summary>
-    public class Window : Widget
+    public class Window : Widget, IEnumerable<Widget>
     {
         /// <summary>
         /// The the title for this window
@@ -120,6 +121,36 @@ namespace DotNetGUI.Widgets
             #endregion
 
             base.Draw();
+        }
+
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<Widget> GetEnumerator()
+        {
+            foreach (var w in this.Controls)
+            {
+                yield return w;
+            }
+        }
+
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
+        /// Adds the widget to this widget
+        /// </summary>
+        /// <param name="widget"></param>
+        public void Add(Widget widget)
+        {
+            Controls.Add(widget);
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetGUI", "DotNetGUI\DotNetGUI.csproj", "{D8A90F3E-33AF-4C56-96E2-BDF9729D1685}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetGUI.Test", "DotNetGUI.Test\DotNetGUI.Test.csproj", "{7C1A1717-B4D5-4CF8-86E8-2FF092643248}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetGUI.Sample", "DotNetGUI.Sample\DotNetGUI.Sample.csproj", "{9BCD1E36-C298-446E-9E8D-24AE8B3F791F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8A90F3E-33AF-4C56-96E2-BDF9729D1685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A90F3E-33AF-4C56-96E2-BDF9729D1685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A90F3E-33AF-4C56-96E2-BDF9729D1685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A90F3E-33AF-4C56-96E2-BDF9729D1685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C1A1717-B4D5-4CF8-86E8-2FF092643248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C1A1717-B4D5-4CF8-86E8-2FF092643248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C1A1717-B4D5-4CF8-86E8-2FF092643248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C1A1717-B4D5-4CF8-86E8-2FF092643248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BCD1E36-C298-446E-9E8D-24AE8B3F791F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BCD1E36-C298-446E-9E8D-24AE8B3F791F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BCD1E36-C298-446E-9E8D-24AE8B3F791F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BCD1E36-C298-446E-9E8D-24AE8B3F791F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
