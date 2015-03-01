@@ -3,6 +3,52 @@
 namespace DotNetGUI
 {
     /// <summary>
+    /// Buffer
+    /// </summary>
+    public struct Buffer
+    {
+        private readonly int _width;
+        private readonly int _height;
+        private readonly Glyph[,] _glyphs;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public Buffer(int width, int height)
+        {
+            _width = width;
+            _height = height;
+            _glyphs = new Glyph[width, height];
+        }
+
+        /// <summary>
+        /// The height of the buffer
+        /// </summary>
+        public int Height
+        {
+            get { return _height; }
+        }
+
+        /// <summary>
+        /// The width of the buffer
+        /// </summary>
+        public int Width
+        {
+            get { return _width; }
+        }
+
+        /// <summary>
+        /// Glyphs
+        /// </summary>
+        public Glyph[,] Glyphs
+        {
+            get { return _glyphs; }
+        }
+    }
+
+    /// <summary>
     /// A <see cref="DisplayBuffer"/> is an offscreen buffer with a width and height
     /// that closely mirrors the contents of a screen except it's not the screen 
     /// at all.
