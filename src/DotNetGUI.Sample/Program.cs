@@ -1,4 +1,5 @@
 ﻿using System;
+using DotNetGUI.Events;
 using DotNetGUI.Widgets;
 
 namespace DotNetGUI.Sample
@@ -8,7 +9,7 @@ namespace DotNetGUI.Sample
         class MainForm : Window
         {
             public MainForm() :
-                base(new Point(0, 0), new Size(20, 15))
+                base(new Point(1, 1), new Size(20, 15))
             {
                 Title = "Testing";
             }
@@ -21,7 +22,7 @@ namespace DotNetGUI.Sample
                 new TextBox(new Point(1,1), 10)
                 {
                     Text = "One",
-                    KeyboardCallback
+                    KeyboardCallback = delegate(ConsoleKeyInfo info) {  }
                 }
             };
 

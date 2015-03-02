@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DotNetGUI.Events;
 using DotNetGUI.Interfaces;
 
 namespace DotNetGUI
@@ -79,14 +80,8 @@ namespace DotNetGUI
         /// <returns>returns the <see cref="Glyph"/> at this location</returns>
         public Glyph this[int x, int y]
         {
-            get
-            {
-                return _displayBuffer[x, y];
-            }
-            set
-            {
-                _displayBuffer[x, y] = value;
-            }
+            get { return _displayBuffer[x, y]; }
+            set { _displayBuffer[x, y] = value; }
         }
 
         /// <summary>

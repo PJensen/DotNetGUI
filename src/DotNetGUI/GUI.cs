@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Linq;
+using DotNetGUI.Events;
+using DotNetGUI.Interfaces;
 
 namespace DotNetGUI
 {

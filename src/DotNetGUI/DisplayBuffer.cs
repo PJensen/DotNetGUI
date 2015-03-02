@@ -3,52 +3,6 @@
 namespace DotNetGUI
 {
     /// <summary>
-    /// Buffer
-    /// </summary>
-    public struct Buffer
-    {
-        private readonly int _width;
-        private readonly int _height;
-        private readonly Glyph[,] _glyphs;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public Buffer(int width, int height)
-        {
-            _width = width;
-            _height = height;
-            _glyphs = new Glyph[width, height];
-        }
-
-        /// <summary>
-        /// The height of the buffer
-        /// </summary>
-        public int Height
-        {
-            get { return _height; }
-        }
-
-        /// <summary>
-        /// The width of the buffer
-        /// </summary>
-        public int Width
-        {
-            get { return _width; }
-        }
-
-        /// <summary>
-        /// Glyphs
-        /// </summary>
-        public Glyph[,] Glyphs
-        {
-            get { return _glyphs; }
-        }
-    }
-
-    /// <summary>
     /// A <see cref="DisplayBuffer"/> is an offscreen buffer with a width and height
     /// that closely mirrors the contents of a screen except it's not the screen 
     /// at all.
@@ -58,45 +12,44 @@ namespace DotNetGUI
     {
         #region backing store
 
-        private readonly Glyph[,] _buffer;
-        private readonly int _height;
-        private readonly int _width;
+        private readonly byte _width;
+        private readonly byte _height;
+        private readonly Glyph[,] _glyphs;
 
         #endregion
 
         /// <summary>
-        /// The width of this display buffer
+        /// Initializes a new <see cref="DisplayBuffer"/>
         /// </summary>
-        public int Width { get { return _width; } }
+        /// <param name="width">the width of the glyph buffer</param>
+        /// <param name="height">the height of the glyph buffer</param>
+        public DisplayBuffer(int width, int height)
+        {
+            _width = (byte)width;
+            _height = (byte)height;
+            _glyphs = new Glyph[width, height];
+        }
 
         /// <summary>
-        /// The height of this display buffer
+        /// The height of the buffer
         /// </summary>
         public int Height { get { return _height; } }
 
         /// <summary>
-        /// Creates a new display buffer
+        /// The width of the buffer
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public DisplayBuffer(int width, int height)
-        {
-            _width = width;
-            _height = height;
-
-            _buffer = new Glyph[width, height];
-        }
+        public int Width { get { return _width; } }
 
         /// <summary>
-        /// two dimensional indexer
+        /// Glyph two dimensional indexer
         /// </summary>
         /// <param name="x">the x-coordinate</param>
         /// <param name="y">the y-coordinate</param>
-        /// <returns></returns>
+        /// <returns>the glyph at the specified location</returns>
         public Glyph this[int x, int y]
         {
-            get { return _buffer[x, y]; }
-            set { _buffer[x, y] = value; }
+            get { return _glyphs[x, y]; }
+            set { _glyphs[x, y] = value; }
         }
 
         /// <summary>
