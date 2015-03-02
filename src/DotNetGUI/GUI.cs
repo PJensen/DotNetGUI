@@ -155,6 +155,8 @@ namespace DotNetGUI
 
             Debug.Write(" [" + Thread.CurrentThread.ManagedThreadId + "] " + methodName + " ... ");
 
+            widget.Initialize();
+
             ThreadPool.QueueUserWorkItem(delegate
             {
                 while (!_done)

@@ -6,7 +6,7 @@ namespace DotNetGUI.Widgets
     /// <summary>
     /// Window
     /// </summary>
-    public class Window : Widget, IEnumerable<Widget>
+    public abstract class Window : Widget, IEnumerable<Widget>
     {
         /// <summary>
         /// The the title for this window
@@ -18,7 +18,7 @@ namespace DotNetGUI.Widgets
         /// </summary>
         /// <param name="location">the location</param>
         /// <param name="size">the size</param>
-        public Window(Point location, Size size)
+        protected Window(Point location, Size size)
             : base(location, size)
         {
             BG = ConsoleColor.Blue;
@@ -129,10 +129,7 @@ namespace DotNetGUI.Widgets
         /// <returns></returns>
         public IEnumerator<Widget> GetEnumerator()
         {
-            foreach (var w in this.Controls)
-            {
-                yield return w;
-            }
+            return ((IEnumerable<Widget>) Controls).GetEnumerator();
         }
 
         /// <summary>

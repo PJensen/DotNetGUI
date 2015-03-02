@@ -33,6 +33,14 @@ namespace DotNetGUI
         private readonly List<Widget> _controls = new List<Widget>();
 
         /// <summary>
+        /// Initialize
+        /// </summary>
+        public void Initialize()
+        {
+            OnInitializedEvent();
+        }
+
+        /// <summary>
         /// KeyboardCallback
         /// </summary>
         public KeyboardCallback KeyboardCallback;
@@ -174,6 +182,13 @@ namespace DotNetGUI
 
         #region events
 
+        public event EventHandler ControlAdded;
+        protected virtual void OnControlAdded()
+        {
+            EventHandler handler = ControlAdded;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
         public event EventHandler Resized;
         protected virtual void OnResized()
         {
@@ -195,6 +210,20 @@ namespace DotNetGUI
             if (handler != null) handler(this, e);
         }
 
+        public event EventHandler InitializedEvent;
+        protected virtual void OnInitializedEvent()
+        {
+            foreach (var control in _controls)
+            {
+                control.Initialize();
+            }
+
+            Initialized = true;
+
+            EventHandler handler = InitializedEvent;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
         #endregion
 
         /// <summary>
@@ -206,5 +235,10 @@ namespace DotNetGUI
         /// The default foreground color for this widget
         /// </summary>
         public ConsoleColor FG { get; set; }
+
+        /// <summary>
+        /// initialized
+        /// </summary>
+        public bool Initialized { get; private set; }
     }
 }

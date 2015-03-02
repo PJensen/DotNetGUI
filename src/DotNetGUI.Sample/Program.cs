@@ -13,20 +13,22 @@ namespace DotNetGUI.Sample
             {
                 Title = "Testing";
             }
+
+            protected override void OnInitializedEvent()
+            {
+                _txtZipCode = new TextBox(new Point(1, 1), 5);
+
+                Add(_txtZipCode);
+
+                base.OnInitializedEvent();
+            }
+
+            private TextBox _txtZipCode;
         }
 
         static void Main(string[] args)
         {
-            var mainForm = new MainForm()
-            {
-                new TextBox(new Point(1,1), 10)
-                {
-                    Text = "One",
-                    KeyboardCallback = delegate(ConsoleKeyInfo info) {  }
-                }
-            };
-
-            GUI.Instance.Run(mainForm);
+            GUI.Instance.Run(new MainForm());
         }
     }
 }
