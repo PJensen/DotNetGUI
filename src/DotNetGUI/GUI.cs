@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Linq;
+using System.Threading;
 using DotNetGUI.Events;
-using DotNetGUI.Interfaces;
 
 namespace DotNetGUI
 {
@@ -31,7 +30,6 @@ namespace DotNetGUI
         /// </summary>
         private GUI()
         {
-
         }
 
         /// <summary>
@@ -46,7 +44,9 @@ namespace DotNetGUI
                 lock (SyncRoot)
                 {
                     if (_instance == null)
+                    {
                         _instance = new GUI();
+                    }
                 }
 
                 return _instance;
@@ -65,16 +65,11 @@ namespace DotNetGUI
         /// <summary>
         /// The sleep time between GUI draw events
         /// </summary>
-        private const int DisplayThreadSleepWait = 10;
+        private const int DisplayThreadSleepWait = 5;
 
         #endregion
 
         #region backing store
-
-        /// <summary>
-        /// exit
-        /// </summary>
-        private volatile bool _done;
 
         /// <summary>
         /// The primary display buffer
@@ -85,6 +80,11 @@ namespace DotNetGUI
         /// The secondary display buffer
         /// </summary>
         private readonly DisplayBuffer _secondaryBuffer = new DisplayBuffer(Console.WindowWidth, Console.WindowHeight);
+
+        /// <summary>
+        /// exit
+        /// </summary>
+        private volatile bool _done;
 
         #endregion
 
@@ -126,24 +126,24 @@ namespace DotNetGUI
         /// </summary>
         private void StartKeyboardCallBackThread()
         {
-            var methodName = new StackFrame().GetMethod().Name;
+            string methodName = new StackFrame().GetMethod().Name;
 
             Debug.Write(" [" + Thread.CurrentThread.ManagedThreadId + "] " + methodName + " ... ");
 
             ThreadPool.QueueUserWorkItem(delegate
-            {
-                while (!_done)
-                {
-                    Thread.Sleep(KeyboardThreadSleepWait);
+                                             {
+                                                 while (!_done)
+                                                 {
+                                                     Thread.Sleep(KeyboardThreadSleepWait);
 
-                    if (_keyboardCallback == null || !Console.KeyAvailable) continue;
+                                                     if (_keyboardCallback == null || !Console.KeyAvailable) continue;
 
-                    lock (SyncRoot)
-                    {
-                        _keyboardCallback(Console.ReadKey(true));
-                    }
-                }
-            });
+                                                     lock (SyncRoot)
+                                                     {
+                                                         _keyboardCallback(Console.ReadKey(true));
+                                                     }
+                                                 }
+                                             });
         }
 
         /// <summary>
@@ -151,26 +151,25 @@ namespace DotNetGUI
         /// </summary>
         private void StartDrawThread(Widget widget)
         {
-            var methodName = new StackFrame().GetMethod().Name;
+            string methodName = new StackFrame().GetMethod().Name;
 
             Debug.Write(" [" + Thread.CurrentThread.ManagedThreadId + "] " + methodName + " ... ");
 
             widget.Initialize();
 
             ThreadPool.QueueUserWorkItem(delegate
-            {
-                while (!_done)
-                {
-                    Thread.Sleep(DisplayThreadSleepWait);
+                                             {
+                                                 while (!_done)
+                                                 {
+                                                     Thread.Sleep(DisplayThreadSleepWait);
 
-                    lock (SyncRoot)
-                    {
-                        DrawWidget(widget);
-                    }
-                }
-            });
+                                                     lock (SyncRoot)
+                                                     {
+                                                         DrawWidget(widget);
+                                                     }
+                                                 }
+                                             });
         }
-
 
 
         /*
@@ -224,10 +223,20 @@ namespace DotNetGUI
                         if (!redrawColumns[x]) continue;
 
                         Console.CursorLeft = x;
-                        Console.BackgroundColor = _primaryBuffer[x, y].BG;
-                        Console.ForegroundColor = _primaryBuffer[x, y].FG;
 
-                        Console.Write(_primaryBuffer[x, y].G);
+                        var glyph = _primaryBuffer[x, y];
+
+                        if (glyph.BG != Console.BackgroundColor)
+                        {
+                            Console.BackgroundColor = glyph.BG;
+                        }
+
+                        if (glyph.FG != Console.ForegroundColor)
+                        {
+                            Console.ForegroundColor = glyph.FG;
+                        }
+
+                        Console.Write(glyph.G);
                     }
                 }
             }
