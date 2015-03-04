@@ -6,7 +6,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D3D2ADFC-B20A-4F12-B976-9B043D1455E0}</ProjectGuid>
+    <ProjectGuid>{7C1A1717-B4D5-4CF8-86E8-2FF092643248}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DotNetGUI.Test</RootNamespace>

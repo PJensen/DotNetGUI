@@ -11,11 +11,17 @@ namespace DotNetGUI.Interfaces
         /// <summary>
         /// The primary background color
         /// </summary>
+        /// <value>
+        /// The bg.
+        /// </value>
         ConsoleColor BG { get; set; }
 
         /// <summary>
         /// The primary foreground color
         /// </summary>
+        /// <value>
+        /// The fg.
+        /// </value>
         ConsoleColor FG { get; set; }
     }
 }

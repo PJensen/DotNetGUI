@@ -23,8 +23,8 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// TextBox
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="width"></param>
+        /// <param name="location">The location.</param>
+        /// <param name="width">The width.</param>
         public TextBox(Point location, int width)
             : base(location, new Size(width, 1))
         {
@@ -35,6 +35,9 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// Text
         /// </summary>
+        /// <value>
+        /// The text.
+        /// </value>
         public string Text
         {
             get { return _text; }

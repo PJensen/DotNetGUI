@@ -19,7 +19,7 @@ namespace DotNetGUI
         #endregion
 
         /// <summary>
-        /// Initializes a new <see cref="DisplayBuffer"/>
+        /// Initializes a new <see cref="DisplayBuffer" />
         /// </summary>
         /// <param name="width">the width of the glyph buffer</param>
         /// <param name="height">the height of the glyph buffer</param>
@@ -33,19 +33,30 @@ namespace DotNetGUI
         /// <summary>
         /// The height of the buffer
         /// </summary>
+        /// <value>
+        /// The height.
+        /// </value>
         public int Height { get { return _height; } }
 
         /// <summary>
         /// The width of the buffer
         /// </summary>
+        /// <value>
+        /// The width.
+        /// </value>
         public int Width { get { return _width; } }
 
         /// <summary>
         /// Glyph two dimensional indexer
         /// </summary>
+        /// <value>
+        /// The <see cref="Glyph"/>.
+        /// </value>
         /// <param name="x">the x-coordinate</param>
         /// <param name="y">the y-coordinate</param>
-        /// <returns>the glyph at the specified location</returns>
+        /// <returns>
+        /// the glyph at the specified location
+        /// </returns>
         public Glyph this[int x, int y]
         {
             get { return _glyphs[x, y]; }
@@ -59,7 +70,9 @@ namespace DotNetGUI
         /// 3. Recurse with any controls that are attached; ordered by z-index descending.
         /// <remarks>Merge all display buffers down to the secondary display buffer</remarks>
         /// </summary>
-        /// <returns></returns>
+        /// <param name="size">The size.</param>
+        /// <param name="offset">The offset.</param>
+        /// <param name="source">The source.</param>
         internal void MergeDownDisplayBuffers(Size size, Point offset, IDisplayBuffered source)
         {
             for (var y = 0; y < size.Height; y++)
@@ -72,9 +85,9 @@ namespace DotNetGUI
         }
 
         /// <summary>
-        /// 
+        /// Merges down display buffers.
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">The source.</param>
         internal void MergeDownDisplayBuffers(IDisplayBuffered source)
         {
             for (var y = 0; y < source.DisplayBuffer.Height; y++)

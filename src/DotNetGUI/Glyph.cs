@@ -12,16 +12,25 @@ namespace DotNetGUI
         /// <summary>
         /// The character for this glyph
         /// </summary>
+        /// <value>
+        /// The g.
+        /// </value>
         public char G { get; set; }
 
         /// <summary>
         /// Foreground ConsoleColor
         /// </summary>
+        /// <value>
+        /// The fg.
+        /// </value>
         public ConsoleColor FG { get; set; }
 
         /// <summary>
         /// Background ConsoleColor
         /// </summary>
+        /// <value>
+        /// The bg.
+        /// </value>
         public ConsoleColor BG { get; set; }
 
         /// <summary>
@@ -41,10 +50,10 @@ namespace DotNetGUI
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
         /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+        /// </returns>
         public bool Equals(Glyph other)
         {
             return Equals(other.BG, BG) && Equals(other.FG, FG) && other.G == G;
@@ -53,10 +62,10 @@ namespace DotNetGUI
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
         /// </summary>
+        /// <param name="obj">Another object to compare to.</param>
         /// <returns>
-        /// true if <paramref name="obj"/> and this instance are the same type and represent the same value; otherwise, false.
+        /// true if <paramref name="obj" /> and this instance are the same type and represent the same value; otherwise, false.
         /// </returns>
-        /// <param name="obj">Another object to compare to. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -69,7 +78,6 @@ namespace DotNetGUI
         /// <returns>
         /// A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
-        /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
             unchecked
@@ -86,7 +94,9 @@ namespace DotNetGUI
         /// </summary>
         /// <param name="left">left hand side</param>
         /// <param name="right">right hand side</param>
-        /// <returns></returns>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator ==(Glyph left, Glyph right)
         {
             return left.Equals(right);
@@ -97,7 +107,9 @@ namespace DotNetGUI
         /// </summary>
         /// <param name="left">left hand side</param>
         /// <param name="right">right hand side</param>
-        /// <returns>true if not equal</returns>
+        /// <returns>
+        /// true if not equal
+        /// </returns>
         public static bool operator !=(Glyph left, Glyph right)
         {
             return !left.Equals(right);
@@ -106,7 +118,9 @@ namespace DotNetGUI
         /// <summary>
         /// ToString
         /// </summary>
-        /// <returns>a string representation of this glyph</returns>
+        /// <returns>
+        /// a string representation of this glyph
+        /// </returns>
         public override string ToString()
         {
             return string.Format("G: {0}, BG: {1}, FG: {2}", G, BG, FG);

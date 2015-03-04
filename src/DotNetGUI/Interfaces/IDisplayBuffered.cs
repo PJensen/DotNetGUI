@@ -8,11 +8,17 @@
         /// <summary>
         /// DisplayBuffer
         /// </summary>
+        /// <value>
+        /// The display buffer.
+        /// </value>
         DisplayBuffer DisplayBuffer { get; }
 
         /// <summary>
         /// Indexer
         /// </summary>
+        /// <value>
+        /// The <see cref="Glyph"/>.
+        /// </value>
         /// <param name="x">the x-coordinate</param>
         /// <param name="y">the y-coordinate</param>
         /// <returns></returns>

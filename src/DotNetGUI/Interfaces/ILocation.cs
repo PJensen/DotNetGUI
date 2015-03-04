@@ -8,6 +8,9 @@ namespace DotNetGUI.Interfaces
         /// <summary>
         /// The location
         /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
         Point Location { get; set; }
     }
 }

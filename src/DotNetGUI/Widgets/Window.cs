@@ -11,6 +11,9 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// The the title for this window
         /// </summary>
+        /// <value>
+        /// The title.
+        /// </value>
         public string Title { get; set; }
 
         /// <summary>
@@ -126,7 +129,9 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// GetEnumerator
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+        /// </returns>
         public IEnumerator<Widget> GetEnumerator()
         {
             return ((IEnumerable<Widget>) Controls).GetEnumerator();
@@ -135,7 +140,9 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// GetEnumerator
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -144,7 +151,7 @@ namespace DotNetGUI.Widgets
         /// <summary>
         /// Adds the widget to this widget
         /// </summary>
-        /// <param name="widget"></param>
+        /// <param name="widget">The widget.</param>
         public void Add(Widget widget)
         {
             Controls.Add(widget);

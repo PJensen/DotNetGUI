@@ -16,10 +16,17 @@ namespace DotNetGUI
         #endregion
 
         /// <summary>
-        /// Creates a new size structure with the passed <see cref="Width"/> and <see cref="Height"/>.
+        /// Creates a new size structure with the passed <see cref="Width" /> and <see cref="Height" />.
         /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <exception cref="DotNetGUIException">
+        /// width and height cannot be negative
+        /// or
+        /// width cannot be negative
+        /// or
+        /// height cannot be negative
+        /// </exception>
         public Size(int width, int height)
         {
             if (width < 0 && height < 0)
@@ -36,13 +43,19 @@ namespace DotNetGUI
         }
 
         /// <summary>
-        /// The <see cref="Width"/> of this <see cref="Size"/> structure
+        /// The <see cref="Width" /> of this <see cref="Size" /> structure
         /// </summary>
+        /// <value>
+        /// The width.
+        /// </value>
         public int Width { get { return _width; } }
 
         /// <summary>
-        /// The <see cref="Height"/> of this <see cref="Size"/> structure
+        /// The <see cref="Height" /> of this <see cref="Size" /> structure
         /// </summary>
+        /// <value>
+        /// The height.
+        /// </value>
         public int Height { get { return _height; } }
 
         /// <summary>
@@ -55,10 +68,12 @@ namespace DotNetGUI
         }
 
         /// <summary>
-        /// The equals comparison for this <see cref="Size"/> object
+        /// The equals comparison for this <see cref="Size" /> object
         /// </summary>
         /// <param name="other">the other size object</param>
-        /// <returns><value>true</value> if equal</returns>
+        /// <returns>
+        ///   <value>true</value> if equal
+        /// </returns>
         public bool Equals(Size other)
         {
             return _height == other._height && _width == other._width;
@@ -68,7 +83,9 @@ namespace DotNetGUI
         /// Equals for this size object
         /// </summary>
         /// <param name="obj">the object to compare to</param>
-        /// <returns>true if equal</returns>
+        /// <returns>
+        /// true if equal
+        /// </returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -76,9 +93,11 @@ namespace DotNetGUI
         }
 
         /// <summary>
-        /// GetHashCode implementation for <see cref="Size"/>
+        /// GetHashCode implementation for <see cref="Size" />
         /// </summary>
-        /// <returns>the hashcode for this object</returns>
+        /// <returns>
+        /// the hashcode for this object
+        /// </returns>
         public override int GetHashCode()
         {
             unchecked
@@ -88,22 +107,26 @@ namespace DotNetGUI
         }
 
         /// <summary>
-        /// Equals operator for <see cref="Size"/>
+        /// Equals operator for <see cref="Size" />
         /// </summary>
         /// <param name="left">the left hand side</param>
         /// <param name="right">the right hand side</param>
-        /// <returns></returns>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator ==(Size left, Size right)
         {
             return left.Equals(right);
         }
 
         /// <summary>
-        /// Not equals operator for <see cref="Size"/>
+        /// Not equals operator for <see cref="Size" />
         /// </summary>
         /// <param name="left">the left hand side</param>
         /// <param name="right">the right hand side</param>
-        /// <returns>true if the two are not equal</returns>
+        /// <returns>
+        /// true if the two are not equal
+        /// </returns>
         public static bool operator !=(Size left, Size right)
         {
             return !left.Equals(right);
