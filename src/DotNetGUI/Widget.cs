@@ -73,7 +73,7 @@ namespace DotNetGUI
                 DisplayBuffer.MergeDownDisplayBuffers(control);
             }
 
-            OnDrawEvent();
+            OnDrawEvent(DisplayBuffer);
         }
 
         #endregion
@@ -250,17 +250,19 @@ namespace DotNetGUI
         /// <summary>
         /// Occurs when [draw event].
         /// </summary>
-        public event EventHandler DrawEvent;
+        public event DrawEventHandler DrawEvent;
 
         /// <summary>
         /// Called when [draw event].
         /// </summary>
-        protected void OnDrawEvent()
+        /// <param name="graphics">The controlbuffer.</param>
+        protected virtual void OnDrawEvent(DisplayBuffer graphics)
         {
-            var handler = DrawEvent;
+            DrawEventHandler handler = DrawEvent;
+
             if (handler != null)
             {
-                handler(this, EventArgs.Empty);
+                handler(this, graphics);
             }
         }
 
